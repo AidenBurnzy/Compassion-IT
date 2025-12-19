@@ -238,6 +238,13 @@ body {
     opacity: 0.95;
 }
 
+@media (min-width: 992px) {
+    /* Keep hero title on one line on wide screens */
+    .hero h1 {
+        white-space: nowrap;
+    }
+}
+
 .cta-button {
     display: inline-block;
     background-color: #dc143c;
@@ -292,6 +299,209 @@ body {
 .help-path-header p {
     color: #666;
     font-size: 1.1rem;
+}
+
+/* Break/Fix Section */
+.breakfix {
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 20px;
+    padding: 3rem 2.5rem;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.05);
+    margin-bottom: 4rem;
+}
+
+.breakfix-text h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.breakfix-text p {
+    color: #555;
+    margin-bottom: 1rem;
+}
+
+.breakfix-highlight {
+    border-left: 4px solid #dc143c;
+    padding-left: 1rem;
+    margin: 1.5rem 0;
+}
+
+.breakfix-highlight h3 {
+    margin-bottom: 0.4rem;
+    color: #333;
+}
+
+/* Dedicated Break/Fix page */
+.breakfix-hero {
+    background: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.4)),
+        url('https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=2000&q=80') center/cover;
+    height: 55vh;
+}
+
+.breakfix-detail {
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 20px;
+    padding: 2.5rem 2rem;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+    margin-bottom: 2rem;
+}
+
+.breakfix-detail-header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.breakfix-detail-header h3 {
+    font-size: 1.6rem;
+    margin-bottom: 0.5rem;
+}
+
+.breakfix-detail-header p {
+    color: #555;
+}
+
+.breakfix-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+@media (max-width: 768px) {
+    .breakfix-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.breakfix-card {
+    border: 1px solid #eee;
+    border-radius: 14px;
+    padding: 1.25rem 1.5rem;
+    background: #fafafa;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+.breakfix-card h4 {
+    margin-bottom: 0.5rem;
+    color: #222;
+}
+
+.breakfix-card p {
+    color: #555;
+    line-height: 1.5;
+}
+
+.breakfix-steps {
+    margin-left: 1.25rem;
+    color: #333;
+    line-height: 1.6;
+}
+
+.breakfix-steps li {
+    margin-bottom: 0.75rem;
+}
+
+/* Contact page */
+.contact-hero {
+    background: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.45)),
+        url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=2000&q=80') center/cover;
+    height: 55vh;
+}
+
+.contact-section {
+    padding: 0;
+}
+
+.contact-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 20px;
+    padding: 2.5rem 2rem;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.06);
+}
+
+@media (max-width: 900px) {
+    .contact-card {
+        grid-template-columns: 1fr;
+    }
+}
+
+.contact-info h2 {
+    margin-bottom: 0.75rem;
+    color: #222;
+}
+
+.contact-info p {
+    color: #555;
+    margin-bottom: 1rem;
+}
+
+.contact-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 0.5rem;
+}
+
+.contact-label {
+    font-weight: 600;
+    margin-right: 0.35rem;
+}
+
+.contact-form-wrap h3 {
+    margin-bottom: 1rem;
+    color: #222;
+}
+
+.contact-form {
+    display: grid;
+    gap: 1rem;
+}
+
+.form-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.form-row label {
+    font-weight: 600;
+    color: #333;
+}
+
+.form-row input,
+.form-row select,
+.form-row textarea {
+    padding: 0.75rem 0.9rem;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    font-size: 1rem;
+    outline: none;
+}
+
+.form-row input:focus,
+.form-row select:focus,
+.form-row textarea:focus {
+    border-color: #dc143c;
+    box-shadow: 0 0 0 3px rgba(220, 20, 60, 0.12);
+}
+
+.contact-form button {
+    justify-self: flex-start;
+}
+
+.cta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+    margin-top: 1.5rem;
 }
 
 .path-container {
@@ -509,6 +719,11 @@ body {
     color: #666;
     font-size: 1.1rem;
     line-height: 1.8;
+}
+
+.about .primary-btn {
+    margin-top: 1.5rem;
+    display: inline-block;
 }
 
 /* Footer Styles */

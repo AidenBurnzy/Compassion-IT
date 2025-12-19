@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CompassionIT - Your Trusted IT Partner</title>
+    <title>CompassionIT Consulting - Your Trusted IT Partner</title>
     <link rel="icon" type="image/png" href="assets/images/favicon.png">
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -11,7 +11,7 @@
     <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
-            <a href="#" class="logo">
+            <a href="index.html" class="logo">
                 <img src="assets/images/logo.png" alt="CompassionIT Logo" class="logo-img">
             </a>
             
@@ -23,7 +23,7 @@
             
             <ul class="nav-menu" id="nav-menu">
                 <li class="nav-item">
-                    <a href="#" class="nav-link">Home</a>
+                    <a href="index.html" class="nav-link">Home</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a href="#" class="nav-link">Services</a>
@@ -37,13 +37,17 @@
                         <a href="#">Remote Monitoring & Management (RMM)</a>
                         <a href="#">Microsoft 365 & Cloud Integration</a>
                         <a href="#">Cyber Liability Policy Review</a>
+                        <a href="breakfix.html">Break / Fix IT Support</a>
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a href="#about" class="nav-link">About</a>
+                    <a href="breakfix.html" class="nav-link">Break/Fix</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#contact" class="nav-link">Contact</a>
+                    <a href="index.html#about" class="nav-link">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="contact.html#contact" class="nav-link">Contact</a>
                 </li>
             </ul>
         </div>
@@ -52,9 +56,9 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-content">
-            <h1>Welcome to CompassionIT</h1>
-            <p>Your trusted partner for comprehensive IT solutions that drive business success with compassion and expertise.</p>
-            <a href="#helpSection" class="cta-button">Find Solutions</a>
+            <h1>Welcome to CompassionIT Consulting</h1>
+                <p>Guiding IT with Heart — compassionate, expert solutions that drive your business forward.</p>
+            <a href="contact.html#contact" class="cta-button">Find Solutions</a>
         </div>
     </section>
 
@@ -64,656 +68,72 @@
         <!-- Help Path Section -->
         <section class="help-path" >
             <div class="help-path-header">
-                <h2>Find the Right Help for You</h2>
-                <p>Tell us what you need help with and we'll guide you to the right solution</p>
+                <h2>What We Help With</h2>
+                <p>Practical, compassionate IT consulting across security, continuity, efficiency, and cloud.</p>
             </div>
             
-            <div class="path-container" id="pathContainer">
-                <!-- Step 1: Main Categories -->
-                <div class="path-step active" id="step1">
-                    <h3>What do you need help with?</h3>
-                    <div class="option-grid">
-                        <div class="path-option" data-step="2" data-category="device">
-                            <div class="option-icon">💻</div>
-                            <h4>Device Issues</h4>
-                            <p>Problems with computers, phones, tablets</p>
-                        </div>
-                        <div class="path-option" data-step="2" data-category="network">
-                            <div class="option-icon">🌐</div>
-                            <h4>Network & Internet</h4>
-                            <p>WiFi, connectivity, speed issues</p>
-                        </div>
-                        <div class="path-option" data-step="2" data-category="software">
-                            <div class="option-icon">⚙️</div>
-                            <h4>Software & Apps</h4>
-                            <p>Installation, crashes, updates</p>
-                        </div>
-                        <div class="path-option" data-step="2" data-category="security">
-                            <div class="option-icon">🔐</div>
-                            <h4>Security Concerns</h4>
-                            <p>Viruses, data protection, passwords</p>
-                        </div>
-                    </div>
+            <div class="option-grid">
+                <div class="path-option">
+                    <div class="option-icon">🔒</div>
+                    <h4>Security & Compliance Audits</h4>
+                    <p>NIST-aligned reviews to tighten controls and meet GLBA, HIPAA, and cyber liability requirements.</p>
                 </div>
-
-                <!-- Step 2: Device Categories -->
-                <div class="path-step" id="step2-device">
-                    <h3>Which device are you having trouble with?</h3>
-                    <div class="option-grid">
-                        <div class="path-option" data-step="3" data-subcategory="phone">
-                            <div class="option-icon">📱</div>
-                            <h4>Phone/Mobile</h4>
-                            <p>Smartphones, mobile issues</p>
-                        </div>
-                        <div class="path-option" data-step="3" data-subcategory="laptop">
-                            <div class="option-icon">💻</div>
-                            <h4>Laptop</h4>
-                            <p>Portable computers</p>
-                        </div>
-                        <div class="path-option" data-step="3" data-subcategory="desktop">
-                            <div class="option-icon">🖥️</div>
-                            <h4>Desktop</h4>
-                            <p>Desktop computers</p>
-                        </div>
-                        <div class="path-option" data-step="3" data-subcategory="tablet">
-                            <div class="option-icon">📋</div>
-                            <h4>Tablet</h4>
-                            <p>iPads, Android tablets</p>
-                        </div>
-                    </div>
-                    <button class="back-button" data-back="1">← Back</button>
+                <div class="path-option">
+                    <div class="option-icon">🛡️</div>
+                    <h4>Business Continuity & DR</h4>
+                    <p>BCP/DR planning to keep your operations running through disruptions and incidents.</p>
                 </div>
-
-                <!-- Step 2: Network Categories -->
-                <div class="path-step" id="step2-network">
-                    <h3>What type of network issue?</h3>
-                    <div class="option-grid">
-                        <div class="path-option" data-step="3" data-subcategory="wifi">
-                            <div class="option-icon">📶</div>
-                            <h4>WiFi Problems</h4>
-                            <p>Can't connect, slow speeds</p>
-                        </div>
-                        <div class="path-option" data-step="3" data-subcategory="ethernet">
-                            <div class="option-icon">🔌</div>
-                            <h4>Wired Connection</h4>
-                            <p>Ethernet, cable issues</p>
-                        </div>
-                        <div class="path-option" data-step="3" data-subcategory="router">
-                            <div class="option-icon">📡</div>
-                            <h4>Router/Modem</h4>
-                            <p>Equipment not working</p>
-                        </div>
-                        <div class="path-option" data-step="3" data-subcategory="setup">
-                            <div class="option-icon">🔧</div>
-                            <h4>Network Setup</h4>
-                            <p>Initial configuration</p>
-                        </div>
-                    </div>
-                    <button class="back-button" data-back="1">← Back</button>
+                <div class="path-option">
+                    <div class="option-icon">⚙️</div>
+                    <h4>Operational Efficiency</h4>
+                    <p>Process and system audits to remove bottlenecks, reduce redundancy, and streamline workflows.</p>
                 </div>
-
-                <!-- Step 2: Software Categories -->
-                <div class="path-step" id="step2-software">
-                    <h3>What software issue are you experiencing?</h3>
-                    <div class="option-grid">
-                        <div class="path-option" data-step="3" data-subcategory="office">
-                            <div class="option-icon">📄</div>
-                            <h4>Office Software</h4>
-                            <p>Word, Excel, email clients</p>
-                        </div>
-                        <div class="path-option" data-step="3" data-subcategory="browser">
-                            <div class="option-icon">🌍</div>
-                            <h4>Web Browsers</h4>
-                            <p>Chrome, Firefox, Safari</p>
-                        </div>
-                        <div class="path-option" data-step="3" data-subcategory="os">
-                            <div class="option-icon">💿</div>
-                            <h4>Operating System</h4>
-                            <p>Windows, Mac, updates</p>
-                        </div>
-                        <div class="path-option" data-step="3" data-subcategory="custom">
-                            <div class="option-icon">🎯</div>
-                            <h4>Business Software</h4>
-                            <p>Custom applications</p>
-                        </div>
-                    </div>
-                    <button class="back-button" data-back="1">← Back</button>
+                <div class="path-option">
+                    <div class="option-icon">💰</div>
+                    <h4>Cost-Saving IT Evaluations</h4>
+                    <p>Vendor, licensing, and spend reviews to uncover savings without sacrificing quality.</p>
                 </div>
-
-                <!-- Step 2: Security Categories -->
-                <div class="path-step" id="step2-security">
-                    <h3>What security concern do you have?</h3>
-                    <div class="option-grid">
-                        <div class="path-option" data-step="3" data-subcategory="virus">
-                            <div class="option-icon">🦠</div>
-                            <h4>Virus/Malware</h4>
-                            <p>Suspected infection</p>
-                        </div>
-                        <div class="path-option" data-step="3" data-subcategory="password">
-                            <div class="option-icon">🔑</div>
-                            <h4>Password Issues</h4>
-                            <p>Forgotten, compromised</p>
-                        </div>
-                        <div class="path-option" data-step="3" data-subcategory="backup">
-                            <div class="option-icon">💾</div>
-                            <h4>Data Backup</h4>
-                            <p>Protecting your files</p>
-                        </div>
-                        <div class="path-option" data-step="3" data-subcategory="breach">
-                            <div class="option-icon">🚨</div>
-                            <h4>Security Breach</h4>
-                            <p>Urgent security issues</p>
-                        </div>
-                    </div>
-                    <button class="back-button" data-back="1">← Back</button>
+                <div class="path-option">
+                    <div class="option-icon">🧭</div>
+                    <h4>vCIO & Strategic IT Leadership</h4>
+                    <p>Executive-level IT guidance for roadmap, governance, and decision support.</p>
                 </div>
-
-                <!-- Step 3: Device Specific Issues -->
-                <!-- Phone Issues -->
-                <div class="path-step" id="step3-device-phone">
-                    <h3>What phone issue are you experiencing?</h3>
-                    <div class="option-grid">
-                        <div class="path-option" data-step="4" data-specific="camera">
-                            <div class="option-icon">📸</div>
-                            <h4>Camera Problems</h4>
-                            <p>Not working, blurry photos</p>
-                        </div>
-                        <div class="path-option" data-step="4" data-specific="screen">
-                            <div class="option-icon">📱</div>
-                            <h4>Screen Issues</h4>
-                            <p>Cracked, unresponsive, black</p>
-                        </div>
-                        <div class="path-option" data-step="4" data-specific="battery">
-                            <div class="option-icon">🔋</div>
-                            <h4>Battery Problems</h4>
-                            <p>Won't charge, drains quickly</p>
-                        </div>
-                        <div class="path-option" data-step="4" data-specific="calling">
-                            <div class="option-icon">📞</div>
-                            <h4>Calling Issues</h4>
-                            <p>Can't make/receive calls</p>
-                        </div>
-                        <div class="path-option" data-step="4" data-specific="apps">
-                            <div class="option-icon">📲</div>
-                            <h4>App Problems</h4>
-                            <p>Won't open, crashes</p>
-                        </div>
-                        <div class="path-option" data-step="4" data-specific="storage">
-                            <div class="option-icon">💾</div>
-                            <h4>Storage Full</h4>
-                            <p>Out of space, slow performance</p>
-                        </div>
-                    </div>
-                    <button class="back-button" data-back="2">← Back</button>
+                <div class="path-option">
+                    <div class="option-icon">☁️</div>
+                    <h4>Microsoft 365 & Cloud</h4>
+                    <p>M365 migrations, configuration, security hardening, and ongoing support.</p>
                 </div>
-
-                <!-- Laptop Issues -->
-                <div class="path-step" id="step3-device-laptop">
-                    <h3>What laptop issue are you experiencing?</h3>
-                    <div class="option-grid">
-                        <div class="path-option" data-step="4" data-specific="screen">
-                            <div class="option-icon">🖥️</div>
-                            <h4>Screen Problems</h4>
-                            <p>Black screen, flickering, lines</p>
-                        </div>
-                        <div class="path-option" data-step="4" data-specific="keyboard">
-                            <div class="option-icon">⌨️</div>
-                            <h4>Keyboard Issues</h4>
-                            <p>Keys not working, sticky</p>
-                        </div>
-                        <div class="path-option" data-step="4" data-specific="battery">
-                            <div class="option-icon">🔋</div>
-                            <h4>Battery Problems</h4>
-                            <p>Won't charge, short life</p>
-                        </div>
-                        <div class="path-option" data-step="4" data-specific="performance">
-                            <div class="option-icon">⚡</div>
-                            <h4>Slow Performance</h4>
-                            <p>Runs slow, freezes</p>
-                        </div>
-                        <div class="path-option" data-step="4" data-specific="overheating">
-                            <div class="option-icon">🌡️</div>
-                            <h4>Overheating</h4>
-                            <p>Gets very hot, fan loud</p>
-                        </div>
-                        <div class="path-option" data-step="4" data-specific="startup">
-                            <div class="option-icon">🔄</div>
-                            <h4>Won't Start</h4>
-                            <p>No power, boot issues</p>
-                        </div>
-                    </div>
-                    <button class="back-button" data-back="2">← Back</button>
+                <div class="path-option">
+                    <div class="option-icon">📊</div>
+                    <h4>Vendor & Project Management</h4>
+                    <p>We lead negotiations and rollouts, representing your business interests end-to-end.</p>
                 </div>
-
-                <!-- Desktop Issues -->
-                <div class="path-step" id="step3-device-desktop">
-                    <h3>What desktop issue are you experiencing?</h3>
-                    <div class="option-grid">
-                        <div class="path-option" data-step="4" data-specific="monitor">
-                            <div class="option-icon">🖥️</div>
-                            <h4>Monitor Problems</h4>
-                            <p>No display, flickering</p>
-                        </div>
-                        <div class="path-option" data-step="4" data-specific="startup">
-                            <div class="option-icon">🔄</div>
-                            <h4>Won't Start</h4>
-                            <p>No power, boot failure</p>
-                        </div>
-                        <div class="path-option" data-step="4" data-specific="performance">
-                            <div class="option-icon">⚡</div>
-                            <h4>Slow Performance</h4>
-                            <p>Runs slow, freezes</p>
-                        </div>
-                        <div class="path-option" data-step="4" data-specific="storage">
-                            <div class="option-icon">💾</div>
-                            <h4>Storage Issues</h4>
-                            <p>Full hard drive, errors</p>
-                        </div>
-                        <div class="path-option" data-step="4" data-specific="peripherals">
-                            <div class="option-icon">🖱️</div>
-                            <h4>Peripherals</h4>
-                            <p>Keyboard, mouse not working</p>
-                        </div>
-                        <div class="path-option" data-step="4" data-specific="noise">
-                            <div class="option-icon">🔊</div>
-                            <h4>Strange Noises</h4>
-                            <p>Clicking, grinding sounds</p>
-                        </div>
-                    </div>
-                    <button class="back-button" data-back="2">← Back</button>
-                </div>
-
-                <!-- Tablet Issues -->
-                <div class="path-step" id="step3-device-tablet">
-                    <h3>What tablet issue are you experiencing?</h3>
-                    <div class="option-grid">
-                        <div class="path-option" data-step="4" data-specific="screen">
-                            <div class="option-icon">📱</div>
-                            <h4>Screen Problems</h4>
-                            <p>Cracked, unresponsive</p>
-                        </div>
-                        <div class="path-option" data-step="4" data-specific="charging">
-                            <div class="option-icon">🔌</div>
-                            <h4>Charging Issues</h4>
-                            <p>Won't charge, port problems</p>
-                        </div>
-                        <div class="path-option" data-step="4" data-specific="apps">
-                            <div class="option-icon">📲</div>
-                            <h4>App Problems</h4>
-                            <p>Crashes, won't download</p>
-                        </div>
-                        <div class="path-option" data-step="4" data-specific="performance">
-                            <div class="option-icon">⚡</div>
-                            <h4>Slow Performance</h4>
-                            <p>Laggy, freezes</p>
-                        </div>
-                    </div>
-                    <button class="back-button" data-back="2">← Back</button>
-                </div>
-
-                <!-- Step 3: Network Specific Issues -->
-                <!-- WiFi Issues -->
-                <div class="path-step" id="step3-network-wifi">
-                    <h3>What specific WiFi problem?</h3>
-                    <div class="option-grid">
-                        <div class="path-option" data-step="4" data-specific="connect">
-                            <div class="option-icon">🔗</div>
-                            <h4>Can't Connect</h4>
-                            <p>Network not found, wrong password</p>
-                        </div>
-                        <div class="path-option" data-step="4" data-specific="slow">
-                            <div class="option-icon">🐌</div>
-                            <h4>Slow Speed</h4>
-                            <p>Internet is very slow</p>
-                        </div>
-                        <div class="path-option" data-step="4" data-specific="drops">
-                            <div class="option-icon">📶</div>
-                            <h4>Keeps Disconnecting</h4>
-                            <p>Connection drops frequently</p>
-                        </div>
-                        <div class="path-option" data-step="4" data-specific="password">
-                            <div class="option-icon">🔑</div>
-                            <h4>Password Issues</h4>
-                            <p>Forgot password, won't accept</p>
-                        </div>
-                    </div>
-                    <button class="back-button" data-back="2">← Back</button>
-                </div>
-
-                <!-- Software Specific Issues -->
-                <div class="path-step" id="step3-software-office">
-                    <h3>What office software problem?</h3>
-                    <div class="option-grid">
-                        <div class="path-option" data-step="4" data-specific="install">
-                            <div class="option-icon">💿</div>
-                            <h4>Installation</h4>
-                            <p>Can't install, activation issues</p>
-                        </div>
-                        <div class="path-option" data-step="4" data-specific="crashes">
-                            <div class="option-icon">💥</div>
-                            <h4>Crashes/Freezes</h4>
-                            <p>Program won't respond</p>
-                        </div>
-                        <div class="path-option" data-step="4" data-specific="files">
-                            <div class="option-icon">📄</div>
-                            <h4>File Problems</h4>
-                            <p>Can't open, corrupted files</p>
-                        </div>
-                        <div class="path-option" data-step="4" data-specific="formatting">
-                            <div class="option-icon">🎨</div>
-                            <h4>Formatting Issues</h4>
-                            <p>Layout problems, printing</p>
-                        </div>
-                    </div>
-                    <button class="back-button" data-back="2">← Back</button>
-                </div>
-
-                <!-- Ethernet Issues -->
-                <div class="path-step" id="step3-network-ethernet">
-                    <h3>What ethernet connection problem?</h3>
-                    <div class="option-grid">
-                        <div class="path-option" data-step="4" data-specific="noconnection">
-                            <div class="option-icon">🔌</div>
-                            <h4>No Connection</h4>
-                            <p>Cable plugged in but no internet</p>
-                        </div>
-                        <div class="path-option" data-step="4" data-specific="slow">
-                            <div class="option-icon">🐌</div>
-                            <h4>Slow Speed</h4>
-                            <p>Ethernet slower than expected</p>
-                        </div>
-                        <div class="path-option" data-step="4" data-specific="intermittent">
-                            <div class="option-icon">⚡</div>
-                            <h4>Intermittent Connection</h4>
-                            <p>Connection keeps dropping</p>
-                        </div>
-                        <div class="path-option" data-step="4" data-specific="cable">
-                            <div class="option-icon">🔗</div>
-                            <h4>Cable Problems</h4>
-                            <p>Damaged or faulty cable</p>
-                        </div>
-                    </div>
-                    <button class="back-button" data-back="2">← Back</button>
-                </div>
-
-                <!-- Router Issues -->
-                <div class="path-step" id="step3-network-router">
-                    <h3>What router/modem issue?</h3>
-                    <div class="option-grid">
-                        <div class="path-option" data-step="4" data-specific="nopower">
-                            <div class="option-icon">🔋</div>
-                            <h4>No Power</h4>
-                            <p>Router won't turn on</p>
-                        </div>
-                        <div class="path-option" data-step="4" data-specific="nointernet">
-                            <div class="option-icon">🌐</div>
-                            <h4>No Internet</h4>
-                            <p>Router on but no internet</p>
-                        </div>
-                        <div class="path-option" data-step="4" data-specific="reset">
-                            <div class="option-icon">🔄</div>
-                            <h4>Need to Reset</h4>
-                            <p>Router needs factory reset</p>
-                        </div>
-                        <div class="path-option" data-step="4" data-specific="upgrade">
-                            <div class="option-icon">⬆️</div>
-                            <h4>Firmware Update</h4>
-                            <p>Router firmware issues</p>
-                        </div>
-                    </div>
-                    <button class="back-button" data-back="2">← Back</button>
-                </div>
-
-                <!-- Network Setup Issues -->
-                <div class="path-step" id="step3-network-setup">
-                    <h3>What network setup help do you need?</h3>
-                    <div class="option-grid">
-                        <div class="path-option" data-step="4" data-specific="newnetwork">
-                            <div class="option-icon">🆕</div>
-                            <h4>New Network Setup</h4>
-                            <p>Setting up internet for first time</p>
-                        </div>
-                        <div class="path-option" data-step="4" data-specific="security">
-                            <div class="option-icon">🔒</div>
-                            <h4>Network Security</h4>
-                            <p>Setting up passwords, security</p>
-                        </div>
-                        <div class="path-option" data-step="4" data-specific="multiple">
-                            <div class="option-icon">📱</div>
-                            <h4>Multiple Devices</h4>
-                            <p>Connecting many devices</p>
-                        </div>
-                        <div class="path-option" data-step="4" data-specific="business">
-                            <div class="option-icon">🏢</div>
-                            <h4>Business Network</h4>
-                            <p>Office network setup</p>
-                        </div>
-                    </div>
-                    <button class="back-button" data-back="2">← Back</button>
-                </div>
-
-                <!-- Browser Issues -->
-                <div class="path-step" id="step3-software-browser">
-                    <h3>What browser problem are you having?</h3>
-                    <div class="option-grid">
-                        <div class="path-option" data-step="4" data-specific="slow">
-                            <div class="option-icon">🐌</div>
-                            <h4>Browser Very Slow</h4>
-                            <p>Pages load slowly</p>
-                        </div>
-                        <div class="path-option" data-step="4" data-specific="crashes">
-                            <div class="option-icon">💥</div>
-                            <h4>Browser Crashes</h4>
-                            <p>Browser keeps closing</p>
-                        </div>
-                        <div class="path-option" data-step="4" data-specific="homepage">
-                            <div class="option-icon">🏠</div>
-                            <h4>Homepage Changed</h4>
-                            <p>Unwanted homepage/search engine</p>
-                        </div>
-                        <div class="path-option" data-step="4" data-specific="bookmarks">
-                            <div class="option-icon">📚</div>
-                            <h4>Lost Bookmarks</h4>
-                            <p>Bookmarks disappeared</p>
-                        </div>
-                    </div>
-                    <button class="back-button" data-back="2">← Back</button>
-                </div>
-
-                <!-- Operating System Issues -->
-                <div class="path-step" id="step3-software-os">
-                    <h3>What operating system issue?</h3>
-                    <div class="option-grid">
-                        <div class="path-option" data-step="4" data-specific="updates">
-                            <div class="option-icon">⬇️</div>
-                            <h4>Update Problems</h4>
-                            <p>Updates failing or causing issues</p>
-                        </div>
-                        <div class="path-option" data-step="4" data-specific="startup">
-                            <div class="option-icon">🔄</div>
-                            <h4>Startup Issues</h4>
-                            <p>Computer won't boot properly</p>
-                        </div>
-                        <div class="path-option" data-step="4" data-specific="errors">
-                            <div class="option-icon">⚠️</div>
-                            <h4>Error Messages</h4>
-                            <p>Getting system error messages</p>
-                        </div>
-                        <div class="path-option" data-step="4" data-specific="performance">
-                            <div class="option-icon">⚡</div>
-                            <h4>System Slow</h4>
-                            <p>Overall system performance poor</p>
-                        </div>
-                    </div>
-                    <button class="back-button" data-back="2">← Back</button>
-                </div>
-
-                <!-- Business Software Issues -->
-                <div class="path-step" id="step3-software-custom">
-                    <h3>What business software issue?</h3>
-                    <div class="option-grid">
-                        <div class="path-option" data-step="4" data-specific="install">
-                            <div class="option-icon">💿</div>
-                            <h4>Installation Problems</h4>
-                            <p>Can't install business software</p>
-                        </div>
-                        <div class="path-option" data-step="4" data-specific="licensing">
-                            <div class="option-icon">🔑</div>
-                            <h4>License Issues</h4>
-                            <p>Software license problems</p>
-                        </div>
-                        <div class="path-option" data-step="4" data-specific="integration">
-                            <div class="option-icon">🔗</div>
-                            <h4>Integration Problems</h4>
-                            <p>Software won't work together</p>
-                        </div>
-                        <div class="path-option" data-step="4" data-specific="training">
-                            <div class="option-icon">📚</div>
-                            <h4>Need Training</h4>
-                            <p>Don't know how to use software</p>
-                        </div>
-                    </div>
-                    <button class="back-button" data-back="2">← Back</button>
-                </div>
-
-                <!-- Password Issues -->
-                <div class="path-step" id="step3-security-password">
-                    <h3>What password problem do you have?</h3>
-                    <div class="option-grid">
-                        <div class="path-option" data-step="4" data-specific="forgot">
-                            <div class="option-icon">❓</div>
-                            <h4>Forgot Password</h4>
-                            <p>Can't remember account password</p>
-                        </div>
-                        <div class="path-option" data-step="4" data-specific="reset">
-                            <div class="option-icon">🔄</div>
-                            <h4>Need to Reset</h4>
-                            <p>Want to change passwords</p>
-                        </div>
-                        <div class="path-option" data-step="4" data-specific="manager">
-                            <div class="option-icon">🔐</div>
-                            <h4>Password Manager</h4>
-                            <p>Need help with password manager</p>
-                        </div>
-                        <div class="path-option" data-step="4" data-specific="compromised">
-                            <div class="option-icon">🚨</div>
-                            <h4>Account Compromised</h4>
-                            <p>Someone accessed my account</p>
-                        </div>
-                    </div>
-                    <button class="back-button" data-back="2">← Back</button>
-                </div>
-
-                <!-- Data Backup Issues -->
-                <div class="path-step" id="step3-security-backup">
-                    <h3>What backup help do you need?</h3>
-                    <div class="option-grid">
-                        <div class="path-option" data-step="4" data-specific="setup">
-                            <div class="option-icon">⚙️</div>
-                            <h4>Setup Backup</h4>
-                            <p>Need to create backup system</p>
-                        </div>
-                        <div class="path-option" data-step="4" data-specific="restore">
-                            <div class="option-icon">📥</div>
-                            <h4>Restore Files</h4>
-                            <p>Need to recover lost files</p>
-                        </div>
-                        <div class="path-option" data-step="4" data-specific="cloud">
-                            <div class="option-icon">☁️</div>
-                            <h4>Cloud Backup</h4>
-                            <p>Setup online backup service</p>
-                        </div>
-                        <div class="path-option" data-step="4" data-specific="schedule">
-                            <div class="option-icon">📅</div>
-                            <h4>Automatic Backup</h4>
-                            <p>Setup scheduled backups</p>
-                        </div>
-                    </div>
-                    <button class="back-button" data-back="2">← Back</button>
-                </div>
-
-                <!-- Security Breach Issues -->
-                <div class="path-step" id="step3-security-breach">
-                    <h3>What type of security breach?</h3>
-                    <div class="option-grid">
-                        <div class="path-option" data-step="4" data-specific="hacked">
-                            <div class="option-icon">💻</div>
-                            <h4>Computer Hacked</h4>
-                            <p>Unauthorized access to computer</p>
-                        </div>
-                        <div class="path-option" data-step="4" data-specific="identity">
-                            <div class="option-icon">🆔</div>
-                            <h4>Identity Theft</h4>
-                            <p>Personal information stolen</p>
-                        </div>
-                        <div class="path-option" data-step="4" data-specific="financial">
-                            <div class="option-icon">💳</div>
-                            <h4>Financial Fraud</h4>
-                            <p>Unauthorized financial activity</p>
-                        </div>
-                        <div class="path-option" data-step="4" data-specific="ransomware">
-                            <div class="option-icon">🔒</div>
-                            <h4>Ransomware Attack</h4>
-                            <p>Files encrypted by ransomware</p>
-                        </div>
-                    </div>
-                    <button class="back-button" data-back="2">← Back</button>
-                </div>
-
-                <!-- Security Specific Issues -->
-                <div class="path-step" id="step3-security-virus">
-                    <h3>What virus/malware symptoms?</h3>
-                    <div class="option-grid">
-                        <div class="path-option" data-step="4" data-specific="detected">
-                            <div class="option-icon">🚨</div>
-                            <h4>Virus Detected</h4>
-                            <p>Antivirus found threats</p>
-                        </div>
-                        <div class="path-option" data-step="4" data-specific="suspicious">
-                            <div class="option-icon">👁️</div>
-                            <h4>Suspicious Activity</h4>
-                            <p>Strange behavior, unknown programs</p>
-                        </div>
-                        <div class="path-option" data-step="4" data-specific="slow">
-                            <div class="option-icon">🐌</div>
-                            <h4>System Very Slow</h4>
-                            <p>Computer running slowly</p>
-                        </div>
-                        <div class="path-option" data-step="4" data-specific="popups">
-                            <div class="option-icon">🪟</div>
-                            <h4>Pop-ups/Ads</h4>
-                            <p>Unwanted ads appearing</p>
-                        </div>
-                    </div>
-                    <button class="back-button" data-back="2">← Back</button>
-                </div>
-
-                <!-- Step 4: Final Recommendations -->
-                <div class="path-step" id="step4">
-                    <h3>Here's how we can help you:</h3>
-                    <div class="recommendation-container">
-                        <div class="recommendation-card">
-                            <h4>Recommended Solution</h4>
-                            <p id="recommendationText">Based on your selection, here's what we recommend...</p>
-                            <div class="action-buttons">
-                                <a href="#" class="primary-btn" id="supportLink">Get Support Now</a>
-                                <a href="#" class="secondary-btn" id="resourceLink">View Resources</a>
-                            </div>
-                        </div>
-                    </div>
-                    <button class="start-over-button" id="startOverBtn">↺ Find another Solution</button>
+                <div class="path-option">
+                    <div class="option-icon">🖥️</div>
+                    <h4>Remote Monitoring & Management</h4>
+                    <p>Antivirus, patching, and system monitoring delivered through monthly support retainers.</p>
                 </div>
             </div>
+
+            <div class="cta-row" style="justify-content: center;">
+                <a class="primary-btn" href="breakfix.html">Need Break/Fix Support?</a>
+                <a class="secondary-btn" href="breakfix.html">Go to Break/Fix Page</a>
+            </div>
         </section>
-
-
     </main>
 
     <!-- About Section -->
     <section class="about" id="about">
         <div class="about-content">
-            <h2>About CompassionIT?</h2>
-            <p>At CompassionIT, we believe that technology should serve people, not the other way around. Our team of experienced professionals combines technical expertise with genuine care for our clients' success. We take the time to understand your unique needs and provide solutions that truly make a difference in your business operations.</p>
+            <h2>About CompassionIT Consulting</h2>
+            <p>Technology should support people, not overwhelm them.</p>
+            <p>I’m the founder of CompassionIT Consulting, and my career has been built at the intersection of enterprise-level IT leadership and real-world business needs. Over the years, I’ve led IT operations through multiple mergers and acquisitions, supported dozens of locations, standardized systems under pressure, and helped organizations grow without losing stability or security.</p>
+            <p>One lesson became clear very quickly: small and mid-sized businesses face the same risks and technology challenges as large enterprises, but without the same budgets or internal resources. Too often, they’re forced to choose between overspending on technology or flying blind without strategic guidance.</p>
+            <p>That’s why CompassionIT exists.</p>
+            <p>My passion is translating enterprise-proven strategies, such as business continuity planning, cybersecurity, vendor management, and strategic IT leadership, into right-sized, affordable solutions that actually make sense for growing organizations. No fear tactics. No unnecessary tools. Just honest guidance, clear priorities, and a partner who genuinely cares about your success.</p>
+            <p>I believe technology should create confidence, not stress. And every business, regardless of size, deserves access to thoughtful, strategic IT leadership at a price that makes sense.</p>
+            <p class="about-cta">Let’s start with a conversation. I offer free assessments and affordable plans of action so you can understand your options before making any commitments.</p>
+            <a class="primary-btn" href="contact.html#contact">Schedule Your Free Assessment</a>
         </div>
     </section>
 
@@ -721,28 +141,27 @@
     <footer class="footer" id="contact">
         <div class="footer-content">
             <div class="footer-section">
-                <h3>CompassionIT</h3>
-                <p>Providing compassionate IT solutions that empower businesses to thrive in the digital age.</p>
+                <h3>CompassionIT Consulting</h3>
+                <p>Guiding IT with Heart — compassionate solutions that empower businesses to thrive.</p>
             </div>
             
             <div class="footer-section">
                 <h3>Quick Links</h3>
-                <p><a href="#">Services</a></p>
-                <p><a href="#about">About Us</a></p>
-                <p><a href="#contact">Contact</a></p>
-                <p><a href="#">Support</a></p>
+                <p><a href="index.html#helpSection">Services</a></p>
+                <p><a href="index.html#about">About Us</a></p>
+                <p><a href="contact.html#contact">Contact</a></p>
+                <p><a href="breakfix.html">Support</a></p>
             </div>
             
             <div class="footer-section">
                 <h3>Contact Info</h3>
-                <p>📧 info@compassionit.com</p>
-                <p>📞 (555) 123-4567</p>
-                <p>📍 123 Tech Street, IT City</p>
+                <p>📧 info@CompassionITConsulting.com</p>
+                <p>📞 616.422.0228</p>
             </div>
         </div>
         
         <div class="footer-bottom">
-            <p>&copy; 2025 CompassionIT. All rights reserved.</p>
+            <p>&copy; 2025 CompassionIT Consulting. All rights reserved.</p>
         </div>
     </footer>
 
