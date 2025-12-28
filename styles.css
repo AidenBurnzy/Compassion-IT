@@ -55,13 +55,14 @@ body {
     display: flex;
     align-items: center;
     height: 100%;
+    margin: -0.5rem 0;
 }
 
 .logo-img {
     height: auto;
     width: 100%;
-    max-width: 250px;
-    max-height: 60px;
+    max-width: 300px;
+    max-height: 80px;
 }
 
 .logo:hover {
