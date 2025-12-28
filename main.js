@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Dropdown functionality for mobile
+    // Dropdown functionality for mobile and touch devices
     const dropdowns = document.querySelectorAll('.dropdown');
     
     dropdowns.forEach((dropdown, index) => {
@@ -66,9 +66,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const content = dropdown.querySelector('.dropdown-content');
         
         if (link && content) {
-            // Handle click on mobile for dropdowns
+            // Handle click/touch for dropdowns
             link.addEventListener('click', (e) => {
-                if (window.innerWidth <= 768) {
+                // On mobile OR on touch-enabled devices (including touchscreen laptops)
+                if (window.innerWidth <= 768 || ('ontouchstart' in window)) {
                     e.preventDefault();
                     e.stopPropagation();
                     
@@ -88,6 +89,28 @@ document.addEventListener('DOMContentLoaded', () => {
                     content.classList.toggle('active');
                     dropdown.classList.toggle('open');
                 }
+            });
+            
+            // For desktop with mouse, also support click to toggle
+            link.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                // Close other dropdowns
+                dropdowns.forEach((otherDropdown, otherIndex) => {
+                    if (otherIndex !== index) {
+                        const otherContent = otherDropdown.querySelector('.dropdown-content');
+                        const otherDropdownEl = otherDropdown;
+                        if (otherContent) {
+                            otherContent.classList.remove('active');
+                            otherDropdownEl.classList.remove('open');
+                        }
+                    }
+                });
+                
+                // Toggle current dropdown
+                content.classList.toggle('active');
+                dropdown.classList.toggle('open');
             });
         }
     });

@@ -160,6 +160,13 @@ body {
     }
 }
 
+/* Show dropdown when open class is added (for touch/click) */
+.dropdown.open .dropdown-content {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
 .dropdown-content a {
     display: block;
     padding: 0.7rem 1.5rem;
