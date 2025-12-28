@@ -1,4 +1,52 @@
+// Modal functions (global scope for onclick)
+function closeModal() {
+    const modal = document.getElementById('successModal');
+    if (modal) {
+        modal.classList.remove('show');
+        setTimeout(() => {
+            modal.style.display = 'none';
+        }, 300);
+    }
+}
+
+function showModal() {
+    const modal = document.getElementById('successModal');
+    if (modal) {
+        modal.style.display = 'flex';
+        setTimeout(() => {
+            modal.classList.add('show');
+        }, 10);
+    }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
+    // Handle form submission
+    const contactForm = document.querySelector('.contact-form');
+    if (contactForm) {
+        contactForm.addEventListener('submit', (e) => {
+            // Let Netlify handle the submission
+            // Show modal after a brief delay to allow form to process
+            setTimeout(() => {
+                showModal();
+            }, 100);
+        });
+    }
+
+    // Close modal when clicking outside
+    const modal = document.getElementById('successModal');
+    if (modal) {
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+        
+        const closeBtn = modal.querySelector('.modal-close');
+        if (closeBtn) {
+            closeBtn.addEventListener('click', closeModal);
+        }
+    }
+
     // Mobile menu toggle
     const hamburger = document.getElementById('hamburger');
     const navMenu = document.getElementById('nav-menu');
