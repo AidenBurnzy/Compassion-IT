@@ -1120,13 +1120,13 @@ body {
 
 /* Footer Styles */
 .footer {
-    background-color: #000000;
+    background-color: #0d0d0d;
     color: white;
     text-align: center;
     padding: 3rem 2rem 2rem;
-    margin-top: auto;
+    margin-top: 4rem;
     margin-bottom: 0;
-    border-top: 2px solid rgba(220, 20, 60, 0.3);
+    border-top: 4px solid #dc143c;
 }
 
 .footer-content {
@@ -1359,51 +1359,80 @@ body {
         border-radius: 0;
     }
 
+    /* Mobile: Hide globe, show simple grid */
     .globe-wrapper {
-        height: 600px;
+        height: auto;
         max-width: 100%;
+        position: relative;
+        padding: 0 15px;
+        overflow: visible;
     }
 
     .globe-container {
-        width: 500px;
-        height: 500px;
+        display: none !important;
     }
 
-    #globe-canvas {
-        width: 500px;
-        height: 500px;
+    .drag-hint {
+        display: none !important;
     }
 
     .timeline-container {
-        width: 500px;
-        height: 500px;
-        transform-origin: 250px 250px;
+        position: static !important;
+        width: 100% !important;
+        height: auto !important;
+        transform: none !important;
+        transform-style: flat !important;
+        display: grid !important;
+        grid-template-columns: 1fr !important;
+        gap: 20px;
+        padding: 20px 0;
+        perspective: none !important;
     }
 
     .timeline-item {
-        width: 220px;
-        height: 240px;
-        top: 250px;
-        left: 250px;
-        margin-left: -110px;
-        margin-top: -120px;
-        transform: rotateY(var(--item-angle, 0deg))
-                   translateZ(260px) !important;
-        padding: 15px;
+        position: static !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        height: auto !important;
+        min-height: 160px;
+        top: auto !important;
+        left: auto !important;
+        right: auto !important;
+        bottom: auto !important;
+        margin: 0 !important;
+        transform: none !important;
+        padding: 20px 18px;
+        opacity: 1 !important;
+        display: block !important;
+        pointer-events: auto !important;
+        filter: none !important;
+        transform-style: flat !important;
     }
 
     .timeline-item:hover {
-        transform: rotateY(var(--item-angle, 0deg))
-                   translateZ(270px)
-                   scale(1.05) !important;
+        transform: translateY(-5px) !important;
     }
 
     .timeline-item h3 {
-        font-size: 14px;
+        font-size: 1.2rem;
+        margin-bottom: 8px;
     }
 
     .timeline-item p {
-        font-size: 11px;
+        font-size: 0.9rem;
+        line-height: 1.5;
+        margin-bottom: 45px;
+    }
+
+    .timeline-item::after {
+        bottom: 15px;
+        padding: 8px 16px;
+        font-size: 0.85rem;
+    }
+
+    /* Hide carousel navigation */
+    .carousel-nav {
+        display: none !important;
     }
 
     .help-path-header h2 {
