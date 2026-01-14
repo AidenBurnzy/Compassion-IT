@@ -120,47 +120,49 @@
     <!-- Main Content -->
     <main class="main-content" id="helpSection">
                
-        <!-- Help Path Section -->
-        <section class="help-path" >
+        <!-- Interactive Globe Section -->
+        <section class="globe-section">
             <div class="help-path-header">
                 <h2>What We Help With</h2>
                 <p>Practical, compassionate IT consulting across security, continuity, efficiency, and cloud.</p>
             </div>
             
-            <div class="option-grid">
-                <a href="business-continuity.html" class="path-option" style="text-decoration: none; color: inherit;">
-                    <div class="option-icon">💼</div>
-                    <h4>Business Continuity Planning</h4>
-                    <p>Enterprise-tested business continuity planning that keeps your operations running when disruptions happen. You get proven strategies from real-world experience, scaled and priced for your business.</p>
-                </a>
-                <a href="vcio-leadership.html" class="path-option" style="text-decoration: none; color: inherit;">
-                    <div class="option-icon">🧭</div>
-                    <h4>vCIO & Strategic IT Leadership</h4>
-                    <p>Executive-level IT leadership without the full-time cost. Strategic guidance that helps you spend smarter, reduce risk, and plan for the future.</p>
-                </a>
-                <a href="vendor-project-management.html" class="path-option" style="text-decoration: none; color: inherit;">
-                    <div class="option-icon">📊</div>
-                    <h4>Vendor and Project Management</h4>
-                    <p>Expert oversight that ensures IT projects stay on track, on budget, and aligned with your goals. I manage vendors so you don't have to.</p>
-                </a>
-                <a href="remote-monitoring.html" class="path-option" style="text-decoration: none; color: inherit;">
-                    <div class="option-icon">🖥️</div>
-                    <h4>Remote Monitoring and Patch Management</h4>
-                    <p>Proactive monitoring and updates that protect your systems without unnecessary disruption. Security and stability, handled quietly in the background.</p>
-                </a>
-                <a href="cybersecurity-assessment.html" class="path-option" style="text-decoration: none; color: inherit;">
-                    <div class="option-icon">🔒</div>
-                    <h4>Cybersecurity Assessment</h4>
-                    <p>A clear, practical review of your cybersecurity posture, without fear or jargon. Know where you stand and what actually matters most.</p>
-                </a>
-                <a href="breakfix.html" class="path-option" style="text-decoration: none; color: inherit;">
-                    <div class="option-icon">🔧</div>
-                    <h4>Break/Fix IT Support</h4>
-                    <p>Fast, reliable break/fix support when things go wrong. Get expert help without being locked into a contract—pay only when you need assistance.</p>
-                </a>
+            <div class="globe-wrapper">
+                <div class="globe-container">
+                    <canvas id="globe-canvas"></canvas>
+                    <div class="drag-hint">Drag to rotate</div>
+                </div>
+                
+                <!-- Card Container - Cards will orbit around the center -->
+                <div class="timeline-container">
+                    <a href="business-continuity.html" class="timeline-item card card-business-continuity" data-index="0" style="text-decoration: none;">
+                        <h3>Business Continuity</h3>
+                        <p>Enterprise-tested strategies for keeping operations running</p>
+                    </a>
+                    <a href="vcio-leadership.html" class="timeline-item card card-vcio" data-index="1" style="text-decoration: none;">
+                        <h3>vCIO Leadership</h3>
+                        <p>Strategic IT guidance without full-time cost</p>
+                    </a>
+                    <a href="vendor-project-management.html" class="timeline-item card card-vendor" data-index="2" style="text-decoration: none;">
+                        <h3>Project Management</h3>
+                        <p>Expert oversight for IT projects and vendors</p>
+                    </a>
+                    <a href="remote-monitoring.html" class="timeline-item card card-monitoring" data-index="3" style="text-decoration: none;">
+                        <h3>Remote Monitoring</h3>
+                        <p>Proactive system protection and updates</p>
+                    </a>
+                    <a href="cybersecurity-assessment.html" class="timeline-item card card-security" data-index="4" style="text-decoration: none;">
+                        <h3>Cybersecurity</h3>
+                        <p>Practical security reviews without jargon</p>
+                    </a>
+                    <a href="breakfix.html" class="timeline-item card card-breakfix" data-index="5" style="text-decoration: none;">
+                        <h3>Break/Fix Support</h3>
+                        <p>Fast, reliable help when things go wrong</p>
+                    </a>
+                </div>
             </div>
 
-            <div class="cta-row" style="justify-content: center;">
+            <div class="cta-row" style="justify-content: center; margin-top: 3rem;">
                 <a class="primary-btn" href="contact.html">Schedule Your Free Assessment</a>
                 <a class="secondary-btn" href="breakfix.html">Learn About Break/Fix Support</a>
             </div>
@@ -215,6 +217,242 @@
         </div>
     </footer>
 
+    <!-- Three.js Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const canvas = document.getElementById('globe-canvas');
+            const dragHint = document.querySelector('.drag-hint');
+            const timelineContainer = document.querySelector('.timeline-container');
+            const timelineItems = document.querySelectorAll('.timeline-item');
+            
+            if (!canvas || typeof THREE === 'undefined') {
+                console.error('Canvas or Three.js not found');
+                return;
+            }
+
+            // Scene setup
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 1000);
+            camera.position.z = 4.5;
+            camera.position.y = 0;
+
+            const renderer = new THREE.WebGLRenderer({
+                canvas: canvas,
+                alpha: true,
+                antialias: true
+            });
+            
+            // Set size based on container
+            const container = canvas.parentElement;
+            const size = Math.min(container.clientWidth, container.clientHeight, 1000);
+            renderer.setSize(size, size);
+            renderer.setPixelRatio(window.devicePixelRatio);
+
+            // Create main globe sphere
+            const geometry = new THREE.SphereGeometry(1.5, 64, 64);
+            const material = new THREE.MeshPhongMaterial({
+                color: 0x8b1a1a,        // Dark red to match site theme
+                emissive: 0x4a0a0a,     // Dark red glow
+                specular: 0xdc143c,     // Crimson highlights
+                shininess: 100,
+                transparent: true,
+                opacity: 0.75
+            });
+            
+            const globe = new THREE.Mesh(geometry, material);
+            scene.add(globe);
+
+            // Create wireframe overlay
+            const wireframeGeo = new THREE.SphereGeometry(1.52, 32, 32);
+            const wireframeMat = new THREE.MeshBasicMaterial({
+                color: 0xdc143c,
+                wireframe: true,
+                transparent: true,
+                opacity: 0.35
+            });
+            const wireframe = new THREE.Mesh(wireframeGeo, wireframeMat);
+            scene.add(wireframe);
+
+            // Lighting setup
+            const ambientLight = new THREE.AmbientLight(0x404040, 2);
+            scene.add(ambientLight);
+
+            const pointLight1 = new THREE.PointLight(0xff6b6b, 2, 100);
+            pointLight1.position.set(2, 2, 2);
+            scene.add(pointLight1);
+
+            const pointLight2 = new THREE.PointLight(0xdc143c, 1.5, 100);
+            pointLight2.position.set(-2, -1, 2);
+            scene.add(pointLight2);
+
+            // Rotation state
+            let rotationX = 0;
+            let rotationY = 0;
+            let targetRotationX = 0;
+            let targetRotationY = 0;
+            let isDragging = false;
+            let previousMouseX = 0;
+            let previousMouseY = 0;
+            let velocityX = 0;
+            let velocityY = 0;
+            let hasDragged = false; // Track if user has actually dragged
+
+            // Setup card angles (evenly distributed around circle)
+            const cardCount = timelineItems.length;
+            const angleStep = 360 / cardCount;
+            
+            timelineItems.forEach((item, index) => {
+                const angle = angleStep * index;
+                item.style.setProperty('--item-angle', `${angle}deg`);
+            });
+
+            // Mouse/Touch event handlers
+            function onDragStart(e) {
+                isDragging = true;
+                hasDragged = false; // Reset drag tracking
+                const clientX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+                const clientY = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
+                previousMouseX = clientX;
+                previousMouseY = clientY;
+                velocityX = 0;
+                velocityY = 0;
+                canvas.style.cursor = 'grabbing';
+                
+                // Hide hint on first interaction
+                if (dragHint) {
+                    dragHint.classList.add('hidden');
+                }
+                
+                e.preventDefault();
+            }
+
+            function onDragMove(e) {
+                if (!isDragging) return;
+                
+                const clientX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+                const clientY = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
+                
+                const deltaX = clientX - previousMouseX;
+                const deltaY = clientY - previousMouseY;
+                
+                // If user has moved more than 5 pixels, consider it a drag
+                if (Math.abs(deltaX) > 5 || Math.abs(deltaY) > 5) {
+                    hasDragged = true;
+                }
+                
+                // Update target rotation (vertical inverted)
+                targetRotationY += deltaX * 0.005;
+                targetRotationX -= deltaY * 0.005;  // Inverted: subtract instead of add
+                
+                // Clamp X rotation to prevent flipping
+                targetRotationX = Math.max(-Math.PI / 3, Math.min(Math.PI / 3, targetRotationX));
+                
+                // Store velocity for momentum (vertical inverted)
+                velocityX = -deltaY * 0.005;  // Inverted
+                velocityY = deltaX * 0.005;
+                
+                previousMouseX = clientX;
+                previousMouseY = clientY;
+                
+                e.preventDefault();
+            }
+
+            function onDragEnd() {
+                if (!isDragging) return;
+                isDragging = false;
+                canvas.style.cursor = 'grab';
+                
+                // Apply momentum
+                targetRotationX += velocityX * 10;
+                targetRotationY += velocityY * 10;
+                
+                // Clamp X rotation
+                targetRotationX = Math.max(-Math.PI / 3, Math.min(Math.PI / 3, targetRotationX));
+            }
+
+            // Add event listeners
+            canvas.addEventListener('mousedown', onDragStart);
+            document.addEventListener('mousemove', onDragMove);
+            document.addEventListener('mouseup', onDragEnd);
+            
+            canvas.addEventListener('touchstart', onDragStart, { passive: false });
+            document.addEventListener('touchmove', onDragMove, { passive: false });
+            document.addEventListener('touchend', onDragEnd);
+
+            // Add drag functionality to cards
+            timelineItems.forEach(item => {
+                item.addEventListener('mousedown', (e) => {
+                    onDragStart(e);
+                });
+                
+                item.addEventListener('touchstart', (e) => {
+                    onDragStart(e);
+                }, { passive: false });
+                
+                // Prevent link navigation if user dragged
+                item.addEventListener('click', (e) => {
+                    if (hasDragged) {
+                        e.preventDefault();
+                    }
+                });
+            });
+
+            // Animation loop
+            function animate() {
+                requestAnimationFrame(animate);
+                
+                // Smooth interpolation
+                rotationX += (targetRotationX - rotationX) * 0.1;
+                rotationY += (targetRotationY - rotationY) * 0.1;
+                
+                // Apply friction when not dragging
+                if (!isDragging) {
+                    velocityX *= 0.95;
+                    velocityY *= 0.95;
+                }
+                
+                // Apply rotation to globe
+                globe.rotation.x = rotationX;
+                globe.rotation.y = rotationY;
+                
+                // Wireframe rotates slightly differently for depth effect
+                wireframe.rotation.x = rotationX * 0.95;
+                wireframe.rotation.y = rotationY * 0.95;
+                
+                // COUNTER-ROTATE the cards container to keep cards flat while globe spins
+                // This makes it look like cards orbit the globe
+                if (timelineContainer) {
+                    const rotationXDeg = (rotationX * 180) / Math.PI;
+                    const rotationYDeg = (rotationY * 180) / Math.PI;
+                    
+                    // Apply the same rotation to the cards container as the globe
+                    timelineContainer.style.transform = `translate(-50%, -50%) rotateX(${rotationXDeg}deg) rotateY(${rotationYDeg}deg)`;
+
+                    // Hide cards on the back side of the globe
+                    timelineItems.forEach((item, index) => {
+                        const angle = angleStep * index;
+                        const adjusted = (((angle + rotationYDeg) % 360) + 540) % 360 - 180; // normalize to [-180,180]
+                        const isFront = Math.abs(adjusted) <= 90;
+                        item.style.opacity = isFront ? '1' : '0';
+                        item.style.pointerEvents = isFront ? 'auto' : 'none';
+                        item.style.filter = isFront ? 'none' : 'blur(2px) opacity(0.25)';
+                    });
+                }
+                
+                // Render scene
+                renderer.render(scene, camera);
+            }
+            
+            animate();
+
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                const newSize = Math.min(container.clientWidth, container.clientHeight, 1000);
+                renderer.setSize(newSize, newSize);
+            });
+        });
+    </script>
     <script src="main.js"></script>
 </body>
 </html>

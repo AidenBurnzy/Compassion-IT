@@ -309,6 +309,228 @@ body {
     font-size: 1.1rem;
 }
 
+/* Globe Section Styles */
+.globe-section {
+    background-color: #000000;
+    outline: #dc143c solid 2px;
+    border-radius: 30px;
+    padding: 2rem 5%;
+    margin: 0 -2rem 4rem -2rem;
+    width: calc(100% + 4rem);
+    box-shadow: 0 5px 25px rgba(220, 20, 60, 0.2);
+}
+
+.globe-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 1000px;
+    height: 800px;
+    margin: 2rem auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.globe-container {
+    position: absolute;
+    width: 800px;
+    height: 800px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+
+#globe-canvas {
+    width: 800px;
+    height: 800px;
+    cursor: grab;
+    transition: opacity 0.3s ease;
+}
+
+#globe-canvas:active {
+    cursor: grabbing;
+}
+
+.drag-hint {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 14px;
+    pointer-events: none;
+    animation: fadeInOut 3s ease-in-out infinite;
+    z-index: 20;
+}
+
+.drag-hint.hidden {
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+@keyframes fadeInOut {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.8; }
+}
+
+/* Timeline Container - holds all cards */
+.timeline-container {
+    position: absolute;
+    width: 800px;
+    height: 800px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transform-origin: 400px 400px;
+    transform-style: preserve-3d;
+    z-index: 15;
+    pointer-events: none;
+}
+
+/* Individual Cards - orbit around center */
+.timeline-item {
+    position: absolute;
+    width: 280px;
+    height: 280px;
+    top: 400px;
+    left: 400px;
+    margin-left: -140px;
+    margin-top: -140px;
+    transform: rotateY(var(--item-angle, 0deg))
+               translateZ(360px);
+    transform-style: preserve-3d;
+    pointer-events: auto;
+    
+    /* Card styling */
+    background: linear-gradient(135deg, rgba(139, 26, 26, 0.9) 0%, rgba(220, 20, 60, 0.9) 100%);
+    border: 1px solid rgba(220, 20, 60, 0.4);
+    border-radius: 24px;
+    padding: 20px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 32px rgba(220, 20, 60, 0.3), 0 0 0 2px rgba(255, 255, 255, 0.1) inset;
+    backdrop-filter: blur(10px);
+}
+
+.timeline-item:hover {
+    background: linear-gradient(135deg, rgba(139, 26, 26, 1) 0%, rgba(220, 20, 60, 1) 100%);
+    box-shadow: 0 12px 48px rgba(220, 20, 60, 0.6);
+    border: 1px solid rgba(220, 20, 60, 0.8);
+    transform: rotateY(var(--item-angle, 0deg))
+               translateZ(400px)
+               scale(1.05);
+}
+
+.timeline-item h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #ffffff;
+}
+
+.timeline-item p {
+    font-size: 13px;
+    opacity: 0.95;
+    line-height: 1.4;
+    color: #ffffff;
+    margin-bottom: 30px;
+}
+
+.timeline-item::after {
+    content: 'Learn More →';
+    position: absolute;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 14px;
+    font-weight: 600;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 8px 16px;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+    animation: subtlePulse 2s ease-in-out infinite;
+    z-index: 2;
+}
+
+/* Individual card background images */
+.card-business-continuity::before,
+.card-vcio::before,
+.card-vendor::before,
+.card-monitoring::before,
+.card-security::before,
+.card-breakfix::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-size: cover;
+    background-position: center;
+    opacity: 0.2;
+    border-radius: 24px;
+    z-index: 0;
+    transition: opacity 0.3s ease;
+}
+
+.card-business-continuity::before {
+    background-image: url('https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=2000&q=80');
+}
+
+.card-vcio::before {
+    background-image: url('https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=2000&q=80');
+}
+
+.card-vendor::before {
+    background-image: url('https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=2000&q=80');
+}
+
+.card-monitoring::before {
+    background-image: url('https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=2000&q=80');
+}
+
+.card-security::before {
+    background-image: url('https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=2000&q=80');
+}
+
+.card-breakfix::before {
+    background-image: url('https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=2000&q=80');
+}
+
+.timeline-item:hover::before {
+    opacity: 0.3;
+}
+
+.timeline-item h3,
+.timeline-item p {
+    position: relative;
+    z-index: 1;
+}
+
+@keyframes subtlePulse {
+    0%, 100% { opacity: 0.8; }
+    50% { opacity: 1; }
+}
+
+.timeline-item:hover::after {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: #ffffff;
+    transform: translateX(-50%) scale(1.05);
+    animation: none;
+}
+
 /* Break/Fix Section */
 .breakfix {
     background: #000000;
@@ -1128,6 +1350,60 @@ body {
         margin: 0 -1rem 3rem -1rem;
         width: calc(100% + 2rem);
         border-radius: 0;
+    }
+
+    .globe-section {
+        padding: 1.5rem 0;
+        margin: 0 -1rem 3rem -1rem;
+        width: calc(100% + 2rem);
+        border-radius: 0;
+    }
+
+    .globe-wrapper {
+        height: 600px;
+        max-width: 100%;
+    }
+
+    .globe-container {
+        width: 500px;
+        height: 500px;
+    }
+
+    #globe-canvas {
+        width: 500px;
+        height: 500px;
+    }
+
+    .timeline-container {
+        width: 500px;
+        height: 500px;
+        transform-origin: 250px 250px;
+    }
+
+    .timeline-item {
+        width: 220px;
+        height: 240px;
+        top: 250px;
+        left: 250px;
+        margin-left: -110px;
+        margin-top: -120px;
+        transform: rotateY(var(--item-angle, 0deg))
+                   translateZ(260px) !important;
+        padding: 15px;
+    }
+
+    .timeline-item:hover {
+        transform: rotateY(var(--item-angle, 0deg))
+                   translateZ(270px)
+                   scale(1.05) !important;
+    }
+
+    .timeline-item h3 {
+        font-size: 14px;
+    }
+
+    .timeline-item p {
+        font-size: 11px;
     }
 
     .help-path-header h2 {
