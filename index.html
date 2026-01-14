@@ -22,6 +22,14 @@
     <meta name="twitter:description" content="Expert IT support and consulting for small and mid-sized businesses.">
     
     <link rel="icon" type="image/png" href="assets/images/favicon.png">
+    
+    <!-- Preconnect to external resources -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://images.unsplash.com" crossorigin>
+    
+    <!-- Preload critical hero image -->
+    <link rel="preload" as="image" href="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" fetchpriority="high">
+    
     <link rel="stylesheet" href="styles.css">
     
     <!-- Structured Data for SEO -->
@@ -71,7 +79,7 @@
     <nav class="navbar">
         <div class="nav-container">
             <a href="index.html" class="logo">
-                <img src="assets/images/logo.png" alt="CompassionIT Logo" class="logo-img">
+                <img src="assets/images/logo.png" alt="CompassionIT Logo" class="logo-img" width="180" height="60">
             </a>
             
             <div class="hamburger" id="hamburger">
@@ -218,9 +226,10 @@
     </footer>
 
     <!-- Three.js Library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" async></script>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
+        // Wait for both THREE.js and DOM to be ready
+        function initGlobe() {
             const canvas = document.getElementById('globe-canvas');
             const dragHint = document.querySelector('.drag-hint');
             const timelineContainer = document.querySelector('.timeline-container');
@@ -451,8 +460,25 @@
                 const newSize = Math.min(container.clientWidth, container.clientHeight, 1000);
                 renderer.setSize(newSize, newSize);
             });
-        });
+        }
+
+        // Initialize when everything is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => {
+                if (typeof THREE !== 'undefined') {
+                    initGlobe();
+                } else {
+                    window.addEventListener('load', initGlobe);
+                }
+            });
+        } else {
+            if (typeof THREE !== 'undefined') {
+                initGlobe();
+            } else {
+                window.addEventListener('load', initGlobe);
+            }
+        }
     </script>
-    <script src="main.js"></script>
+    <script src="main.js" defer></script>
 </body>
 </html>
