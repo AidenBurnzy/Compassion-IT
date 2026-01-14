@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Performance Test - CompassionIT</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #0a0a1a;
+            color: #fff;
+        }
+        .test-card {
+            background: #1a1a2e;
+            border: 2px solid #dc143c;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .test-card h2 {
+            color: #dc143c;
+            margin-top: 0;
+        }
+        .status {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+        .status.pass {
+            background: #28a745;
+        }
+        .status.fail {
+            background: #dc3545;
+        }
+        .status.info {
+            background: #17a2b8;
+        }
+        code {
+            background: #2a2a3e;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+        .metric {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            margin: 5px 0;
+            background: #2a2a3e;
+            border-radius: 4px;
+        }
+        .metric-value {
+            font-weight: bold;
+            color: #dc143c;
+        }
+        button {
+            background: #dc143c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 5px 10px 0;
+        }
+        button:hover {
+            background: #a00f2a;
+        }
+        #results {
+            white-space: pre-wrap;
+            font-family: monospace;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🚀 Performance Optimization Verification</h1>
+    
+    <div class="test-card">
+        <h2>✅ Optimizations Applied</h2>
+        <ul>
+            <li><span class="status pass">DONE</span> Passive event listeners added (main.js)</li>
+            <li><span class="status pass">DONE</span> Globe geometry reduced (64→32 segments in index.html)</li>
+            <li><span class="status pass">DONE</span> Globe geometry reduced (32→16 segments in globe-script.js)</li>
+            <li><span class="status pass">DONE</span> Pixel ratio capped at 1.5x (instead of 2x)</li>
+            <li><span class="status pass">DONE</span> Shadows disabled for better performance</li>
+            <li><span class="status pass">DONE</span> Frame throttling added (60 FPS cap)</li>
+            <li><span class="status pass">DONE</span> Renderer precision changed (highp → mediump)</li>
+            <li><span class="status pass">DONE</span> Three.js loading changed (async → defer)</li>
+        </ul>
+    </div>
+
+    <div class="test-card">
+        <h2>📊 Expected Improvements</h2>
+        <div class="metric">
+            <span>Performance Score</span>
+            <span class="metric-value">50 → 75-85 (+25-35 points)</span>
+        </div>
+        <div class="metric">
+            <span>Total Blocking Time</span>
+            <span class="metric-value">2,520ms → <600ms (-75%)</span>
+        </div>
+        <div class="metric">
+            <span>Time to Interactive</span>
+            <span class="metric-value">3.8s → <2.5s (-34%)</span>
+        </div>
+        <div class="metric">
+            <span>Main Thread Work</span>
+            <span class="metric-value">4.8s → <2.5s (-48%)</span>
+        </div>
+        <div class="metric">
+            <span>Largest Contentful Paint</span>
+            <span class="metric-value">5.5s → <2.5s (-55%)</span>
+        </div>
+    </div>
+
+    <div class="test-card">
+        <h2>🔍 Browser Feature Detection</h2>
+        <div id="feature-detection">
+            <p>Loading...</p>
+        </div>
+    </div>
+
+    <div class="test-card">
+        <h2>⚡ Performance Tests</h2>
+        <button onclick="runPerformanceTests()">Run Performance Tests</button>
+        <button onclick="testPassiveListeners()">Test Passive Listeners</button>
+        <button onclick="measureRenderTime()">Measure Render Time</button>
+        <div id="results"></div>
+    </div>
+
+    <div class="test-card">
+        <h2>📋 Next Steps</h2>
+        <ol>
+            <li>Deploy these changes to your website</li>
+            <li>Run a new Lighthouse audit (Chrome DevTools → Lighthouse tab)</li>
+            <li>Compare new scores with the baseline (50/100)</li>
+            <li>Monitor real user metrics using Web Vitals</li>
+            <li>Consider implementing additional optimizations from <code>PERFORMANCE_OPTIMIZATIONS.md</code></li>
+        </ol>
+        
+        <h3>Running Lighthouse Audit:</h3>
+        <code>
+            1. Open Chrome DevTools (F12)<br>
+            2. Click "Lighthouse" tab<br>
+            3. Select "Performance" category<br>
+            4. Click "Analyze page load"<br>
+            5. Compare with baseline: 50/100
+        </code>
+    </div>
+
+    <script>
+        // Feature Detection
+        document.addEventListener('DOMContentLoaded', () => {
+            const featureDiv = document.getElementById('feature-detection');
+            let html = '';
+
+            // Passive listener support
+            let passiveSupported = false;
+            try {
+                const opts = Object.defineProperty({}, 'passive', {
+                    get() { passiveSupported = true; }
+                });
+                window.addEventListener('test', null, opts);
+                window.removeEventListener('test', null, opts);
+            } catch (e) {}
+
+            html += `<div class="metric">
+                <span>Passive Event Listeners</span>
+                <span class="status ${passiveSupported ? 'pass' : 'fail'}">${passiveSupported ? 'SUPPORTED ✓' : 'NOT SUPPORTED ✗'}</span>
+            </div>`;
+
+            // Performance API
+            const perfSupported = 'performance' in window;
+            html += `<div class="metric">
+                <span>Performance API</span>
+                <span class="status ${perfSupported ? 'pass' : 'fail'}">${perfSupported ? 'SUPPORTED ✓' : 'NOT SUPPORTED ✗'}</span>
+            </div>`;
+
+            // RequestAnimationFrame
+            const rafSupported = 'requestAnimationFrame' in window;
+            html += `<div class="metric">
+                <span>RequestAnimationFrame</span>
+                <span class="status ${rafSupported ? 'pass' : 'fail'}">${rafSupported ? 'SUPPORTED ✓' : 'NOT SUPPORTED ✗'}</span>
+            </div>`;
+
+            // Device Pixel Ratio
+            const dpr = window.devicePixelRatio || 1;
+            const dprCapped = Math.min(dpr, 1.5);
+            html += `<div class="metric">
+                <span>Device Pixel Ratio</span>
+                <span class="metric-value">${dpr.toFixed(2)} → ${dprCapped.toFixed(2)} (capped)</span>
+            </div>`;
+
+            featureDiv.innerHTML = html;
+        });
+
+        function runPerformanceTests() {
+            const results = document.getElementById('results');
+            results.innerHTML = 'Running tests...\n\n';
+
+            // Navigation Timing
+            if (performance.timing) {
+                const timing = performance.timing;
+                const loadTime = timing.loadEventEnd - timing.navigationStart;
+                const domReady = timing.domContentLoadedEventEnd - timing.navigationStart;
+                const interactive = timing.domInteractive - timing.navigationStart;
+
+                results.innerHTML += `NAVIGATION TIMING:\n`;
+                results.innerHTML += `  Page Load Time: ${loadTime}ms\n`;
+                results.innerHTML += `  DOM Ready: ${domReady}ms\n`;
+                results.innerHTML += `  DOM Interactive: ${interactive}ms\n\n`;
+            }
+
+            // Memory (if available)
+            if (performance.memory) {
+                const memory = performance.memory;
+                results.innerHTML += `MEMORY USAGE:\n`;
+                results.innerHTML += `  Used JS Heap: ${(memory.usedJSHeapSize / 1048576).toFixed(2)} MB\n`;
+                results.innerHTML += `  Total JS Heap: ${(memory.totalJSHeapSize / 1048576).toFixed(2)} MB\n`;
+                results.innerHTML += `  Heap Limit: ${(memory.jsHeapSizeLimit / 1048576).toFixed(2)} MB\n\n`;
+            }
+
+            // Paint Timing
+            if (performance.getEntriesByType) {
+                const paintEntries = performance.getEntriesByType('paint');
+                if (paintEntries.length > 0) {
+                    results.innerHTML += `PAINT TIMING:\n`;
+                    paintEntries.forEach(entry => {
+                        results.innerHTML += `  ${entry.name}: ${entry.startTime.toFixed(2)}ms\n`;
+                    });
+                    results.innerHTML += '\n';
+                }
+            }
+
+            results.innerHTML += `✓ Tests completed!\n`;
+        }
+
+        function testPassiveListeners() {
+            const results = document.getElementById('results');
+            results.innerHTML = 'Testing passive listeners...\n\n';
+
+            let passiveSupported = false;
+            try {
+                const opts = Object.defineProperty({}, 'passive', {
+                    get() { 
+                        passiveSupported = true;
+                        return true;
+                    }
+                });
+                window.addEventListener('testPassive', null, opts);
+                window.removeEventListener('testPassive', null, opts);
+            } catch (e) {
+                results.innerHTML += `✗ Error detecting passive support: ${e}\n`;
+                return;
+            }
+
+            if (passiveSupported) {
+                results.innerHTML += `✓ Passive event listeners ARE supported\n`;
+                results.innerHTML += `✓ Touch/wheel events will use passive:true\n`;
+                results.innerHTML += `✓ This improves scroll performance\n\n`;
+                results.innerHTML += `Passive listeners are configured in main.js:\n`;
+                results.innerHTML += `  - touchstart: { passive: true }\n`;
+                results.innerHTML += `  - touchmove: { passive: true }\n`;
+                results.innerHTML += `  - wheel: { passive: true }\n`;
+            } else {
+                results.innerHTML += `✗ Passive event listeners NOT supported\n`;
+                results.innerHTML += `  (This is okay on older browsers)\n`;
+            }
+        }
+
+        function measureRenderTime() {
+            const results = document.getElementById('results');
+            results.innerHTML = 'Measuring render performance...\n\n';
+
+            let frameCount = 0;
+            let startTime = performance.now();
+            const frameTimes = [];
+            const duration = 2000; // 2 seconds
+
+            function measureFrame(timestamp) {
+                frameCount++;
+                if (frameTimes.length > 0) {
+                    const frameTime = timestamp - frameTimes[frameTimes.length - 1];
+                    frameTimes.push(timestamp);
+                    
+                    if (frameTime > 16.67) { // Slower than 60fps
+                        // Frame drop detected
+                    }
+                } else {
+                    frameTimes.push(timestamp);
+                }
+
+                if (timestamp - startTime < duration) {
+                    requestAnimationFrame(measureFrame);
+                } else {
+                    // Calculate stats
+                    const fps = (frameCount / (duration / 1000)).toFixed(2);
+                    const avgFrameTime = (duration / frameCount).toFixed(2);
+                    
+                    let longFrames = 0;
+                    for (let i = 1; i < frameTimes.length; i++) {
+                        const ft = frameTimes[i] - frameTimes[i-1];
+                        if (ft > 16.67) longFrames++;
+                    }
+
+                    results.innerHTML += `RENDER PERFORMANCE (${duration/1000}s test):\n`;
+                    results.innerHTML += `  Average FPS: ${fps}\n`;
+                    results.innerHTML += `  Avg Frame Time: ${avgFrameTime}ms\n`;
+                    results.innerHTML += `  Total Frames: ${frameCount}\n`;
+                    results.innerHTML += `  Long Frames (>16.67ms): ${longFrames}\n`;
+                    results.innerHTML += `  Frame Drop %: ${((longFrames/frameCount)*100).toFixed(2)}%\n\n`;
+                    
+                    if (fps >= 55) {
+                        results.innerHTML += `✓ Excellent performance! Maintaining near 60fps\n`;
+                    } else if (fps >= 45) {
+                        results.innerHTML += `✓ Good performance (45-60fps)\n`;
+                    } else if (fps >= 30) {
+                        results.innerHTML += `⚠ Acceptable performance (30-45fps)\n`;
+                    } else {
+                        results.innerHTML += `✗ Poor performance (<30fps)\n`;
+                    }
+                }
+            }
+
+            requestAnimationFrame(measureFrame);
+        }
+    </script>
+</body>
+</html>

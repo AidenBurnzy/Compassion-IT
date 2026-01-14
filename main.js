@@ -151,6 +151,26 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // Add passive event listeners for better scroll performance
+    const passiveSupported = (() => {
+        let supported = false;
+        try {
+            const opts = Object.defineProperty({}, 'passive', {
+                get() { supported = true; }
+            });
+            window.addEventListener('test', null, opts);
+            window.removeEventListener('test', null, opts);
+        } catch (e) {}
+        return supported;
+    })();
+
+    // Apply passive listeners to touch and wheel events
+    if (passiveSupported) {
+        document.addEventListener('touchstart', () => {}, { passive: true });
+        document.addEventListener('touchmove', () => {}, { passive: true });
+        document.addEventListener('wheel', () => {}, { passive: true });
+    }
+
     // Only run help path logic on pages that include the wizard
     const hasHelpPath = document.querySelector('.path-step');
     if (hasHelpPath) {

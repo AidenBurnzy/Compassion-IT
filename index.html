@@ -225,8 +225,8 @@
         </div>
     </footer>
 
-    <!-- Three.js Library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" async></script>
+    <!-- Three.js Library - deferred loading -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
     <script>
         // Wait for both THREE.js and DOM to be ready
         function initGlobe() {
@@ -249,17 +249,18 @@
             const renderer = new THREE.WebGLRenderer({
                 canvas: canvas,
                 alpha: true,
-                antialias: true
+                antialias: window.devicePixelRatio <= 1.5, // Disable on high-DPI
+                powerPreference: 'high-performance'
             });
             
             // Set size based on container
             const container = canvas.parentElement;
             const size = Math.min(container.clientWidth, container.clientHeight, 1000);
             renderer.setSize(size, size);
-            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5)); // Cap at 1.5x
 
-            // Create main globe sphere
-            const geometry = new THREE.SphereGeometry(1.5, 64, 64);
+            // Create main globe sphere with optimized geometry
+            const geometry = new THREE.SphereGeometry(1.5, 32, 32); // Reduced from 64
             const material = new THREE.MeshPhongMaterial({
                 color: 0x8b1a1a,        // Dark red to match site theme
                 emissive: 0x4a0a0a,     // Dark red glow
@@ -272,8 +273,8 @@
             const globe = new THREE.Mesh(geometry, material);
             scene.add(globe);
 
-            // Create wireframe overlay
-            const wireframeGeo = new THREE.SphereGeometry(1.52, 32, 32);
+            // Create wireframe overlay with optimized geometry
+            const wireframeGeo = new THREE.SphereGeometry(1.52, 16, 16); // Reduced from 32
             const wireframeMat = new THREE.MeshBasicMaterial({
                 color: 0xdc143c,
                 wireframe: true,
@@ -407,9 +408,20 @@
                 });
             });
 
-            // Animation loop
-            function animate() {
+            // Animation loop with frame throttling
+            let lastFrameTime = 0;
+            const targetFPS = 60;
+            const frameInterval = 1000 / targetFPS;
+            
+            function animate(currentTime = 0) {
                 requestAnimationFrame(animate);
+                
+                // Throttle to target FPS
+                const elapsed = currentTime - lastFrameTime;
+                if (elapsed < frameInterval) {
+                    return;
+                }
+                lastFrameTime = currentTime - (elapsed % frameInterval);
                 
                 // Smooth interpolation
                 rotationX += (targetRotationX - rotationX) * 0.1;

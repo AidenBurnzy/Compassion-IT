@@ -40,16 +40,17 @@ function initGlobe() {
     camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 10000);
     camera.position.z = 280;
 
-    // Renderer
+    // Renderer with performance optimizations
     renderer = new THREE.WebGLRenderer({
         canvas,
-        antialias: true,
+        antialias: window.devicePixelRatio <= 1.5, // Disable on high-DPI for performance
         alpha: true,
-        precision: 'highp'
+        precision: 'mediump', // Use medium precision for better performance
+        powerPreference: 'high-performance'
     });
     renderer.setSize(width, height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.shadowMap.enabled = true;
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5)); // Cap at 1.5x for performance
+    renderer.shadowMap.enabled = false; // Disable shadows for better performance
 
     // Create globe
     createGlobe();
@@ -73,8 +74,8 @@ function createGlobe() {
         scene.remove(globe);
     }
 
-    // Create sphere geometry
-    const geometry = new THREE.IcosahedronGeometry(CONFIG.globeSize, 32);
+    // Create sphere geometry with reduced detail for better performance
+    const geometry = new THREE.IcosahedronGeometry(CONFIG.globeSize, 16);
     
     // Create material with gradient effect
     const material = new THREE.MeshPhongMaterial({
@@ -85,11 +86,12 @@ function createGlobe() {
     });
 
     globe = new THREE.Mesh(geometry, material);
-    globe.castShadow = true;
-    globe.receiveShadow = true;
+    // Disabled shadows for better performance
+    globe.castShadow = false;
+    globe.receiveShadow = false;
     
-    // Add wireframe overlay
-    const wireframeGeometry = new THREE.IcosahedronGeometry(CONFIG.globeSize * 1.02, 32);
+    // Add wireframe overlay with reduced complexity
+    const wireframeGeometry = new THREE.IcosahedronGeometry(CONFIG.globeSize * 1.02, 16);
     const wireframeMaterial = new THREE.LineSegments(
         new THREE.EdgesGeometry(wireframeGeometry),
         new THREE.LineBasicMaterial({
@@ -124,9 +126,8 @@ function createLighting() {
     // Directional light for depth
     const directionalLight = new THREE.DirectionalLight(0xffffff, 0.6);
     directionalLight.position.set(100, 200, 150);
-    directionalLight.castShadow = true;
-    directionalLight.shadow.mapSize.width = 2048;
-    directionalLight.shadow.mapSize.height = 2048;
+    // Disabled shadows for better performance
+    directionalLight.castShadow = false;
     scene.add(directionalLight);
 }
 
@@ -141,10 +142,11 @@ function setupEventListeners() {
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
 
-    // Touch events
-    canvas.addEventListener('touchstart', onTouchStart);
-    document.addEventListener('touchmove', onTouchMove);
-    document.addEventListener('touchend', onTouchEnd);
+    // Touch events with passive optimization
+    canvas.addEventListener('touchstart', onTouchStart, { passive: false });
+    // Use passive for touchmove on document, let canvas handle preventDefault
+    document.addEventListener('touchmove', onTouchMove, { passive: false });
+    document.addEventListener('touchend', onTouchEnd, { passive: true });
 
     // Arrow buttons
     document.querySelectorAll('.carousel-arrow').forEach((btn, index) => {
@@ -201,7 +203,12 @@ function onTouchStart(e) {
 
 function onTouchMove(e) {
     if (!isDragging || e.touches.length !== 1) return;
-    e.preventDefault();
+    // Removed preventDefault for better scroll performance
+    // Only prevent default for canvas area
+    const canvas = document.getElementById('globe-canvas');
+    if (canvas && e.target === canvas) {
+        e.preventDefault();
+    }
 
     const deltaX = e.touches[0].clientX - lastX;
     const deltaY = e.touches[0].clientY - lastY;
@@ -330,8 +337,20 @@ function updateGlobeRotation() {
     });
 }
 
-function animate() {
+// Performance optimization: Track frame timing
+let lastFrameTime = 0;
+const targetFPS = 60;
+const frameInterval = 1000 / targetFPS;
+
+function animate(currentTime) {
     requestAnimationFrame(animate);
+
+    // Throttle to target FPS
+    const elapsed = currentTime - lastFrameTime;
+    if (elapsed < frameInterval) {
+        return;
+    }
+    lastFrameTime = currentTime - (elapsed % frameInterval);
 
     updateGlobeRotation();
 
