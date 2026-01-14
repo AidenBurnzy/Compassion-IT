@@ -916,6 +916,10 @@ body {
     margin-bottom: 2rem;
 }
 
+.footer-section {
+    text-align: center;
+}
+
 .footer-section h3 {
     color: #dc143c;
     margin-bottom: 1rem;
@@ -926,10 +930,11 @@ body {
     color: #ccc;
     text-decoration: none;
     line-height: 1.6;
-    display: inline-block;
+    display: block;
     min-height: 48px;
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 
 .footer-section a:hover {
