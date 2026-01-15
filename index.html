@@ -374,6 +374,9 @@
             let velocityX = 0;
             let velocityY = 0;
             let hasDragged = false; // Track if user has actually dragged
+            let touchStartTime = 0; // Track when touch started
+            let touchStartX = 0;
+            let touchStartY = 0;
 
             // Setup card angles (evenly distributed around circle)
             const cardCount = timelineItems.length;
@@ -388,30 +391,57 @@
             function onDragStart(e) {
                 // Only allow drag start on canvas or timeline items
                 if (e.target === canvas || e.target.closest('.timeline-item')) {
-                    isDragging = true;
-                    hasDragged = false; // Reset drag tracking
                     const clientX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
                     const clientY = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
+                    
+                    // For mouse, set dragging immediately
+                    // For touch, wait for movement to distinguish from tap
+                    if (e.type.includes('mouse')) {
+                        isDragging = true;
+                        canvas.style.cursor = 'grabbing';
+                        e.preventDefault();
+                    } else {
+                        // Touch: store start position and time, don't set isDragging yet
+                        touchStartTime = Date.now();
+                        touchStartX = clientX;
+                        touchStartY = clientY;
+                    }
+                    
+                    hasDragged = false; // Reset drag tracking
                     previousMouseX = clientX;
                     previousMouseY = clientY;
                     velocityX = 0;
                     velocityY = 0;
-                    canvas.style.cursor = 'grabbing';
                     
                     // Hide hint on first interaction
                     if (dragHint) {
                         dragHint.classList.add('hidden');
                     }
-                    
-                    e.preventDefault();
                 }
             }
 
             function onDragMove(e) {
-                if (!isDragging) return;
-                
                 const clientX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
                 const clientY = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
+                
+                // For touch events, check if we should start dragging
+                if (!isDragging && e.type.includes('touch') && touchStartTime > 0) {
+                    const deltaX = clientX - touchStartX;
+                    const deltaY = clientY - touchStartY;
+                    const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+                    
+                    // Only start dragging if moved more than 10px
+                    if (distance > 10) {
+                        isDragging = true;
+                        hasDragged = true;
+                        e.preventDefault(); // Now prevent scrolling
+                    } else {
+                        // Not enough movement yet, allow scrolling
+                        return;
+                    }
+                }
+                
+                if (!isDragging) return;
                 
                 const deltaX = clientX - previousMouseX;
                 const deltaY = clientY - previousMouseY;
@@ -442,8 +472,13 @@
             }
 
             function onDragEnd() {
-                if (!isDragging) return;
+                if (!isDragging) {
+                    // Reset touch tracking even if drag never started
+                    touchStartTime = 0;
+                    return;
+                }
                 isDragging = false;
+                touchStartTime = 0;
                 canvas.style.cursor = 'grab';
                 
                 // Apply momentum
