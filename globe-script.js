@@ -142,10 +142,9 @@ function setupEventListeners() {
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
 
-    // Touch events with passive optimization
+    // Touch events - non-passive only on canvas, passive on document for scrolling
     canvas.addEventListener('touchstart', onTouchStart, { passive: false });
-    // Use passive for touchmove on document, let canvas handle preventDefault
-    document.addEventListener('touchmove', onTouchMove, { passive: false });
+    document.addEventListener('touchmove', onTouchMove, { passive: true });
     document.addEventListener('touchend', onTouchEnd, { passive: true });
 
     // Arrow buttons
@@ -203,13 +202,8 @@ function onTouchStart(e) {
 
 function onTouchMove(e) {
     if (!isDragging || e.touches.length !== 1) return;
-    // Removed preventDefault for better scroll performance
-    // Only prevent default for canvas area
-    const canvas = document.getElementById('globe-canvas');
-    if (canvas && e.target === canvas) {
-        e.preventDefault();
-    }
-
+    // Don't prevent default to allow scrolling outside interactive area
+    
     const deltaX = e.touches[0].clientX - lastX;
     const deltaY = e.touches[0].clientY - lastY;
 

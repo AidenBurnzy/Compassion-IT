@@ -93,7 +93,8 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // For desktop with mouse, also support click to toggle
             link.addEventListener('touchstart', (e) => {
-                e.preventDefault();
+                // Don't prevent default to allow scrolling
+                // The click event will handle the interaction
                 e.stopPropagation();
                 
                 // Close other dropdowns
@@ -111,7 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Toggle current dropdown
                 content.classList.toggle('active');
                 dropdown.classList.toggle('open');
-            });
+            }, { passive: true });
         }
     });
 

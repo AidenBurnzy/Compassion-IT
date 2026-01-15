@@ -23,12 +23,50 @@
     
     <link rel="icon" type="image/png" href="assets/images/favicon.png">
     
-    <!-- Preconnect to external resources -->
+    <!-- DNS Prefetch and Preconnect to external resources -->
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://images.unsplash.com">
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
     <link rel="preconnect" href="https://images.unsplash.com" crossorigin>
     
-    <!-- Preload critical hero image -->
-    <link rel="preload" as="image" href="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" fetchpriority="high">
+    <!-- Preload critical hero image with responsive sizes -->
+    <link rel="preload" as="image" 
+          href="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
+          imagesrcset="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=60 640w,
+                       https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&auto=format&fit=crop&w=1280&q=70 1280w,
+                       https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80 2070w"
+          imagesizes="100vw"
+          fetchpriority="high">
+    
+    <!-- Inline critical CSS for hero section to prevent render blocking -->
+    <style>
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)),
+                url('https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80') center/cover;
+            height: 70vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            position: relative;
+            border-bottom: 2px solid rgba(220, 20, 60, 0.3);
+        }
+        .hero-content {
+            max-width: 800px;
+            padding: 2rem;
+            z-index: 1;
+        }
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+    </style>
     
     <link rel="stylesheet" href="styles.css">
     
@@ -225,9 +263,38 @@
         </div>
     </footer>
 
-    <!-- Three.js Library - deferred loading -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
+    <!-- Lazy load Three.js only when globe section is visible -->
     <script>
+        // Intersection Observer to lazy load Three.js
+        let threeJsLoaded = false;
+        
+        function loadThreeJs() {
+            if (threeJsLoaded) return;
+            threeJsLoaded = true;
+            
+            const script = document.createElement('script');
+            script.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
+            script.onload = initGlobe;
+            document.body.appendChild(script);
+        }
+        
+        // Check if globe section is in viewport
+        const globeSection = document.querySelector('.globe-section');
+        if (globeSection) {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        loadThreeJs();
+                        observer.disconnect();
+                    }
+                });
+            }, {
+                rootMargin: '200px' // Start loading 200px before visible
+            });
+            
+            observer.observe(globeSection);
+        }
+        
         // Wait for both THREE.js and DOM to be ready
         function initGlobe() {
             const canvas = document.getElementById('globe-canvas');
@@ -319,22 +386,25 @@
 
             // Mouse/Touch event handlers
             function onDragStart(e) {
-                isDragging = true;
-                hasDragged = false; // Reset drag tracking
-                const clientX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
-                const clientY = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
-                previousMouseX = clientX;
-                previousMouseY = clientY;
-                velocityX = 0;
-                velocityY = 0;
-                canvas.style.cursor = 'grabbing';
-                
-                // Hide hint on first interaction
-                if (dragHint) {
-                    dragHint.classList.add('hidden');
+                // Only allow drag start on canvas or timeline items
+                if (e.target === canvas || e.target.closest('.timeline-item')) {
+                    isDragging = true;
+                    hasDragged = false; // Reset drag tracking
+                    const clientX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+                    const clientY = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
+                    previousMouseX = clientX;
+                    previousMouseY = clientY;
+                    velocityX = 0;
+                    velocityY = 0;
+                    canvas.style.cursor = 'grabbing';
+                    
+                    // Hide hint on first interaction
+                    if (dragHint) {
+                        dragHint.classList.add('hidden');
+                    }
+                    
+                    e.preventDefault();
                 }
-                
-                e.preventDefault();
             }
 
             function onDragMove(e) {
@@ -365,7 +435,10 @@
                 previousMouseX = clientX;
                 previousMouseY = clientY;
                 
-                e.preventDefault();
+                // Only prevent default if dragging on canvas/cards
+                if (e.target === canvas || e.target.closest('.timeline-item')) {
+                    e.preventDefault();
+                }
             }
 
             function onDragEnd() {
@@ -386,9 +459,11 @@
             document.addEventListener('mousemove', onDragMove);
             document.addEventListener('mouseup', onDragEnd);
             
+            // Touch events - non-passive only on canvas to allow drag
             canvas.addEventListener('touchstart', onDragStart, { passive: false });
-            document.addEventListener('touchmove', onDragMove, { passive: false });
-            document.addEventListener('touchend', onDragEnd);
+            // Document-level touchmove is passive to allow scrolling
+            document.addEventListener('touchmove', onDragMove, { passive: true });
+            document.addEventListener('touchend', onDragEnd, { passive: true });
 
             // Add drag functionality to cards
             timelineItems.forEach(item => {
