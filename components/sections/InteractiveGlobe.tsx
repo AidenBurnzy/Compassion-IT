@@ -97,6 +97,27 @@ export function InteractiveGlobe({ content }: Props) {
       renderer.setSize(size, size);
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
 
+      // The orbiting cards are positioned with plain CSS 3D transforms
+      // (rotateY + translateZ), a completely separate coordinate system from
+      // the WebGL sphere above. To make the cards actually hug the globe's
+      // rendered edge instead of floating at an arbitrary fixed distance,
+      // derive the orbit radius from the sphere's real on-screen silhouette
+      // size (same camera FOV / distance / radius used above), then clamp it
+      // so cards can't overflow the section on narrow viewports.
+      const SPHERE_RADIUS = 1.5;
+      const CAMERA_Z = 4.5;
+      const CAMERA_FOV_DEG = 45;
+      function computeOrbitRadiusPx(canvasSize: number) {
+        const sphereAngle = Math.asin(SPHERE_RADIUS / CAMERA_Z);
+        const halfFovRad = (CAMERA_FOV_DEG / 2) * (Math.PI / 180);
+        const apparentSphereRadius = (Math.tan(sphereAngle) / Math.tan(halfFovRad)) * (canvasSize / 2);
+        const desired = apparentSphereRadius * 1.15; // snug orbit just outside the globe's edge
+        const cardHalfWidth = window.matchMedia("(min-width: 640px)").matches ? 96 : 80;
+        const maxSafeRadius = Math.max(120, container.clientWidth / 2 - cardHalfWidth - 12);
+        return Math.min(desired, maxSafeRadius);
+      }
+      timelineContainer.style.setProperty("--orbit-radius", `${computeOrbitRadiusPx(size)}px`);
+
       const geometry = new THREE.SphereGeometry(1.5, 32, 32);
       const material = new THREE.MeshPhongMaterial({
         color: 0x8b1a1a,
@@ -291,6 +312,7 @@ export function InteractiveGlobe({ content }: Props) {
       const onResize = () => {
         const newSize = Math.min(container.clientWidth, container.clientHeight, 1000);
         renderer.setSize(newSize, newSize);
+        timelineContainer.style.setProperty("--orbit-radius", `${computeOrbitRadiusPx(newSize)}px`);
       };
       window.addEventListener("resize", onResize);
 
@@ -356,7 +378,7 @@ export function InteractiveGlobe({ content }: Props) {
         </p>
       </div>
 
-      <div className="relative mx-auto mt-12 flex h-[420px] w-full max-w-[560px] items-center justify-center [perspective:1400px] sm:h-[520px] md:h-[620px]">
+      <div className="relative mx-auto mt-12 flex h-[420px] w-full max-w-[560px] items-center justify-center sm:h-[520px] md:h-[620px]">
         <div className="relative h-full w-full">
           <canvas ref={canvasRef} className="absolute left-1/2 top-1/2 h-full w-full -translate-x-1/2 -translate-y-1/2 cursor-grab" />
           <div ref={dragHintRef} className="drag-hint pointer-events-none absolute left-1/2 top-[8%] -translate-x-1/2 rounded-full bg-black/60 px-3 py-1 text-xs text-white/80 transition-opacity duration-300">
@@ -379,7 +401,7 @@ export function InteractiveGlobe({ content }: Props) {
                 data-index={i}
                 className="timeline-item card absolute left-1/2 top-1/2 w-40 -translate-x-1/2 -translate-y-1/2 rounded-xl border border-brand/40 bg-black/80 p-3 text-center no-underline shadow-lg backdrop-blur transition sm:w-48 sm:p-4"
                 style={{
-                  transform: `rotateY(var(--item-angle, 0deg)) translateZ(180px)`,
+                  transform: `rotateY(var(--item-angle, 0deg)) translateZ(var(--orbit-radius, 180px))`,
                 }}
               >
                 <h3
