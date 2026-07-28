@@ -15,6 +15,9 @@ export default async function Home() {
   const heroHeadline = content["hero.headline"] || "Welcome to CompassionIT Consulting";
   const heroDescription = content["hero.description"] || "Guiding IT with Heart — compassionate, expert solutions that drive your business forward.";
   const heroCta = content["hero.cta"] || "Find Solutions";
+  const heroBackgroundImage =
+    content["hero.backgroundImage"] ||
+    "https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80";
 
   const aboutTitle = content["about.title"] || "About CompassionIT Consulting";
   const aboutIntro = content["about.intro"] || "Technology should support people, not overwhelm them.";
@@ -31,8 +34,19 @@ export default async function Home() {
   return (
     <>
       {/* Hero */}
-      <section className="flex min-h-[70vh] items-center justify-center border-b-2 border-brand/30 bg-black text-center text-white">
-        <div className="mx-auto max-w-2xl px-6 py-16">
+      <section className="relative flex min-h-[70vh] items-center justify-center overflow-hidden border-b-2 border-brand/30 bg-black text-center text-white">
+        {/* eslint-disable-next-line @next/next/no-img-element -- plain img required by NGF standards for editable image fields (never next/image with fill) */}
+        <img
+          src={heroBackgroundImage}
+          alt=""
+          data-ngf-field="hero.backgroundImage"
+          data-ngf-label="Background Image"
+          data-ngf-type="image"
+          data-ngf-section="Hero"
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+        <div className="absolute inset-0 bg-black/40" aria-hidden="true" />
+        <div className="relative z-10 mx-auto max-w-2xl px-6 py-16">
           <h1
             data-ngf-field="hero.headline"
             data-ngf-label="Headline"
