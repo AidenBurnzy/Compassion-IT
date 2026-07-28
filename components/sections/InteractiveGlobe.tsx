@@ -103,12 +103,14 @@ export function InteractiveGlobe({ content }: Props) {
       // globe's rendered edge (with real clearance) instead of floating at an
       // arbitrary fixed distance, derive the orbit radius from the sphere's
       // real on-screen silhouette size (same camera FOV / distance / radius
-      // used above) plus the card's own half-width plus a visible gap, so the
-      // card's *near* edge clears the globe rather than just its center.
+      // used above) plus the card's own half-width plus a small gap (tunable
+      // via ORBIT_GAP_PX — negative means a slight snug overlap with the
+      // globe's edge), so the card's *near* edge clears the globe rather
+      // than just its center.
       const SPHERE_RADIUS = 1.5;
       const CAMERA_Z = 4.5;
       const CAMERA_FOV_DEG = 45;
-      const ORBIT_GAP_PX = 20;
+      const ORBIT_GAP_PX = -10;
       function computeOrbitRadiusPx(canvasSize: number) {
         const sphereAngle = Math.asin(SPHERE_RADIUS / CAMERA_Z);
         const halfFovRad = (CAMERA_FOV_DEG / 2) * (Math.PI / 180);
