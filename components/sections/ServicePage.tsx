@@ -31,8 +31,19 @@ export function ServicePage({ content, sectionKey, defaults }: ServicePageProps)
 
   return (
     <>
-      <section className="flex min-h-[40vh] items-center justify-center border-b-2 border-brand/30 bg-black text-center text-white">
-        <div className="mx-auto max-w-2xl px-6 py-14">
+      <section className="relative flex min-h-[40vh] items-center justify-center overflow-hidden border-b-2 border-brand/30 bg-black text-center text-white">
+        {/* eslint-disable-next-line @next/next/no-img-element -- plain img required by NGF standards for editable image fields (never next/image with fill) */}
+        <img
+          src={image}
+          alt={imageAlt}
+          data-ngf-field={`${sectionKey}.image`}
+          data-ngf-label="Background Image"
+          data-ngf-type="image"
+          data-ngf-section="ServicePage"
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+        <div className="absolute inset-0 bg-black/60" aria-hidden="true" />
+        <div className="relative z-10 mx-auto max-w-2xl px-6 py-14">
           <h1
             data-ngf-field={`${sectionKey}.heroHeadline`}
             data-ngf-label="Headline"
@@ -55,16 +66,6 @@ export function ServicePage({ content, sectionKey, defaults }: ServicePageProps)
       </section>
 
       <section className="section-shell mx-auto max-w-3xl">
-        {/* eslint-disable-next-line @next/next/no-img-element -- plain img required by NGF standards for editable image fields (never next/image with fill) */}
-        <img
-          src={image}
-          alt={imageAlt}
-          data-ngf-field={`${sectionKey}.image`}
-          data-ngf-label="Featured Image"
-          data-ngf-type="image"
-          data-ngf-section="ServicePage"
-          className="mb-10 h-64 w-full rounded-xl border border-brand/20 object-cover sm:h-80"
-        />
         <p
           data-ngf-field={`${sectionKey}.intro`}
           data-ngf-label="Intro Line"
