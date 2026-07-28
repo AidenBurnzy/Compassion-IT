@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { NgfSiteContent } from "@/lib/ngf";
 
 type Props = {
@@ -19,6 +19,36 @@ const cards = [
   { title: "Break/Fix Support", description: "Fast, reliable help when things go wrong", href: "/breakfix" },
 ];
 
+// The orbiting cards are positioned with plain CSS 3D transforms (rotateY +
+// translateZ), a completely separate coordinate system from the WebGL sphere
+// rendered below. To make the cards actually orbit at a well-defined distance
+// from the globe's rendered edge, the orbit radius is derived from the
+// sphere's real on-screen silhouette size (same camera FOV / distance /
+// radius used to render it) plus the card's own half-width plus a tunable
+// gap — negative means an intentional overlap with the globe's edge.
+// DEFAULT_ORBIT_GAP_PX is the baked-in value used once a gap is picked via
+// the dev-only slider below (see the "Orbit gap" control at the bottom of
+// this component).
+const DEFAULT_ORBIT_GAP_PX = -95;
+const SPHERE_RADIUS = 1.5;
+const CAMERA_Z = 4.5;
+const CAMERA_FOV_DEG = 45;
+
+function computeOrbitRadiusPx(canvasSize: number, gapPx: number) {
+  const sphereAngle = Math.asin(SPHERE_RADIUS / CAMERA_Z);
+  const halfFovRad = (CAMERA_FOV_DEG / 2) * (Math.PI / 180);
+  const apparentSphereRadius = (Math.tan(sphereAngle) / Math.tan(halfFovRad)) * (canvasSize / 2);
+  const cardHalfWidth = typeof window !== "undefined" && window.matchMedia("(min-width: 640px)").matches ? 96 : 80;
+  const desired = apparentSphereRadius + cardHalfWidth + gapPx;
+  // Clamp against the actual viewport, not the small globe sub-container (the
+  // container is only 560px wide at most, but cards are allowed to extend
+  // beyond its box into the section's surrounding whitespace) — clamping
+  // against the container itself was a past bug that made cards land inside
+  // the globe on desktop.
+  const maxSafeRadius = Math.max(120, (typeof window !== "undefined" ? window.innerWidth : 1200) / 2 - cardHalfWidth - 16);
+  return Math.min(desired, maxSafeRadius);
+}
+
 // Ported as-is from the original compassionitconsulting.com static site
 // (globe-script.js / index.html inline script), just wrapped in a React
 // lifecycle instead of vanilla DOMContentLoaded/IntersectionObserver globals.
@@ -29,6 +59,23 @@ export function InteractiveGlobe({ content }: Props) {
   const dragHintRef = useRef<HTMLDivElement>(null);
   const timelineContainerRef = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLDivElement>(null);
+  const canvasSizeRef = useRef(300);
+  const orbitGapRef = useRef(DEFAULT_ORBIT_GAP_PX);
+  const [orbitGapDisplay, setOrbitGapDisplay] = useState(DEFAULT_ORBIT_GAP_PX);
+
+  // Dev-only live tuning: drag the slider to see the change instantly (no
+  // Three.js re-init, just a CSS variable update), then tell whoever's
+  // driving the code the final number so it can be baked in as
+  // DEFAULT_ORBIT_GAP_PX. This whole block is stripped from the production
+  // bundle's rendered output via the NODE_ENV check below.
+  function handleGapChange(value: number) {
+    orbitGapRef.current = value;
+    setOrbitGapDisplay(value);
+    const timelineContainer = timelineContainerRef.current;
+    if (timelineContainer) {
+      timelineContainer.style.setProperty("--orbit-radius", `${computeOrbitRadiusPx(canvasSizeRef.current, value)}px`);
+    }
+  }
 
   useEffect(() => {
     let threeJsLoaded = false;
@@ -97,35 +144,8 @@ export function InteractiveGlobe({ content }: Props) {
       renderer.setSize(size, size);
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
 
-      // The orbiting cards are positioned with plain CSS 3D transforms
-      // (rotateY + translateZ), a completely separate coordinate system from
-      // the WebGL sphere above. To make the cards actually orbit outside the
-      // globe's rendered edge (with real clearance) instead of floating at an
-      // arbitrary fixed distance, derive the orbit radius from the sphere's
-      // real on-screen silhouette size (same camera FOV / distance / radius
-      // used above) plus the card's own half-width plus a small gap (tunable
-      // via ORBIT_GAP_PX — negative means a slight snug overlap with the
-      // globe's edge), so the card's *near* edge clears the globe rather
-      // than just its center.
-      const SPHERE_RADIUS = 1.5;
-      const CAMERA_Z = 4.5;
-      const CAMERA_FOV_DEG = 45;
-      const ORBIT_GAP_PX = -10;
-      function computeOrbitRadiusPx(canvasSize: number) {
-        const sphereAngle = Math.asin(SPHERE_RADIUS / CAMERA_Z);
-        const halfFovRad = (CAMERA_FOV_DEG / 2) * (Math.PI / 180);
-        const apparentSphereRadius = (Math.tan(sphereAngle) / Math.tan(halfFovRad)) * (canvasSize / 2);
-        const cardHalfWidth = window.matchMedia("(min-width: 640px)").matches ? 96 : 80;
-        const desired = apparentSphereRadius + cardHalfWidth + ORBIT_GAP_PX;
-        // Clamp against the actual viewport, not the small globe sub-container
-        // (the container is only 560px wide at most, but cards are allowed to
-        // extend beyond its box into the section's surrounding whitespace) —
-        // clamping against the container itself was the bug that made cards
-        // land *inside* the globe on desktop.
-        const maxSafeRadius = Math.max(120, window.innerWidth / 2 - cardHalfWidth - 16);
-        return Math.min(desired, maxSafeRadius);
-      }
-      timelineContainer.style.setProperty("--orbit-radius", `${computeOrbitRadiusPx(size)}px`);
+      canvasSizeRef.current = size;
+      timelineContainer.style.setProperty("--orbit-radius", `${computeOrbitRadiusPx(size, orbitGapRef.current)}px`);
 
       const geometry = new THREE.SphereGeometry(1.5, 32, 32);
       const material = new THREE.MeshPhongMaterial({
@@ -321,7 +341,8 @@ export function InteractiveGlobe({ content }: Props) {
       const onResize = () => {
         const newSize = Math.min(container.clientWidth, container.clientHeight, 1000);
         renderer.setSize(newSize, newSize);
-        timelineContainer.style.setProperty("--orbit-radius", `${computeOrbitRadiusPx(newSize)}px`);
+        canvasSizeRef.current = newSize;
+        timelineContainer.style.setProperty("--orbit-radius", `${computeOrbitRadiusPx(newSize, orbitGapRef.current)}px`);
       };
       window.addEventListener("resize", onResize);
 
@@ -436,6 +457,25 @@ export function InteractiveGlobe({ content }: Props) {
           </div>
         </div>
       </div>
+
+      {process.env.NODE_ENV !== "production" && (
+        <div className="mx-auto mt-4 flex max-w-xs flex-col items-center gap-1 rounded-lg border border-brand/30 bg-black/70 px-4 py-3 text-xs text-white/80">
+          <label htmlFor="orbit-gap-slider" className="font-semibold">
+            Dev only — Orbit gap: {orbitGapDisplay}px
+          </label>
+          <input
+            id="orbit-gap-slider"
+            type="range"
+            min={-150}
+            max={150}
+            step={5}
+            value={orbitGapDisplay}
+            onChange={(e) => handleGapChange(Number(e.target.value))}
+            className="w-full"
+          />
+          <span className="text-white/50">Drag until it looks right, then tell me the number.</span>
+        </div>
+      )}
 
       <div className="mt-10 flex flex-wrap justify-center gap-4">
         <Link
