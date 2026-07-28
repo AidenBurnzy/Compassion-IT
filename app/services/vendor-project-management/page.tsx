@@ -23,6 +23,9 @@ export default async function VendorProjectManagementPage() {
         closing:
           "Whether it's a system migration, security rollout, cloud transition, or operational improvement initiative, my role is to ensure clarity, efficiency, and results—so your team stays focused on the business instead of managing vendors.",
         ctaText: "Schedule Your Free Assessment",
+        image:
+          "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80",
+        imageAlt: "Team planning a project timeline together",
       }}
     />
   );

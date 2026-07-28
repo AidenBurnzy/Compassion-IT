@@ -11,6 +11,8 @@ type ServicePageProps = {
     body: string;
     closing: string;
     ctaText: string;
+    image: string;
+    imageAlt: string;
   };
 };
 
@@ -24,6 +26,8 @@ export function ServicePage({ content, sectionKey, defaults }: ServicePageProps)
   const body = content[`${sectionKey}.body`] || defaults.body;
   const closing = content[`${sectionKey}.closing`] || defaults.closing;
   const ctaText = content[`${sectionKey}.ctaText`] || defaults.ctaText;
+  const image = content[`${sectionKey}.image`] || defaults.image;
+  const imageAlt = content[`${sectionKey}.imageAlt`] || defaults.imageAlt;
 
   return (
     <>
@@ -51,6 +55,16 @@ export function ServicePage({ content, sectionKey, defaults }: ServicePageProps)
       </section>
 
       <section className="section-shell mx-auto max-w-3xl">
+        {/* eslint-disable-next-line @next/next/no-img-element -- plain img required by NGF standards for editable image fields (never next/image with fill) */}
+        <img
+          src={image}
+          alt={imageAlt}
+          data-ngf-field={`${sectionKey}.image`}
+          data-ngf-label="Featured Image"
+          data-ngf-type="image"
+          data-ngf-section="ServicePage"
+          className="mb-10 h-64 w-full rounded-xl border border-brand/20 object-cover sm:h-80"
+        />
         <p
           data-ngf-field={`${sectionKey}.intro`}
           data-ngf-label="Intro Line"

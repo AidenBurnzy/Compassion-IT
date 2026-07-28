@@ -23,6 +23,9 @@ export default async function CybersecurityAssessmentPage() {
         closing:
           "You'll receive clear findings, plain-language explanations, and a prioritized action plan that aligns with your business size, industry, and budget. No scare tactics. No unnecessary tools. Just honest guidance and practical next steps.",
         ctaText: "Schedule Your Free Assessment",
+        image:
+          "https://images.unsplash.com/photo-1553877522-43269d4ea984?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80",
+        imageAlt: "Padlock resting on a keyboard, representing cybersecurity protection",
       }}
     />
   );
