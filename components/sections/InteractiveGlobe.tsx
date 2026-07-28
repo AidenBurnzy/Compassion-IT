@@ -99,21 +99,28 @@ export function InteractiveGlobe({ content }: Props) {
 
       // The orbiting cards are positioned with plain CSS 3D transforms
       // (rotateY + translateZ), a completely separate coordinate system from
-      // the WebGL sphere above. To make the cards actually hug the globe's
-      // rendered edge instead of floating at an arbitrary fixed distance,
-      // derive the orbit radius from the sphere's real on-screen silhouette
-      // size (same camera FOV / distance / radius used above), then clamp it
-      // so cards can't overflow the section on narrow viewports.
+      // the WebGL sphere above. To make the cards actually orbit outside the
+      // globe's rendered edge (with real clearance) instead of floating at an
+      // arbitrary fixed distance, derive the orbit radius from the sphere's
+      // real on-screen silhouette size (same camera FOV / distance / radius
+      // used above) plus the card's own half-width plus a visible gap, so the
+      // card's *near* edge clears the globe rather than just its center.
       const SPHERE_RADIUS = 1.5;
       const CAMERA_Z = 4.5;
       const CAMERA_FOV_DEG = 45;
+      const ORBIT_GAP_PX = 20;
       function computeOrbitRadiusPx(canvasSize: number) {
         const sphereAngle = Math.asin(SPHERE_RADIUS / CAMERA_Z);
         const halfFovRad = (CAMERA_FOV_DEG / 2) * (Math.PI / 180);
         const apparentSphereRadius = (Math.tan(sphereAngle) / Math.tan(halfFovRad)) * (canvasSize / 2);
-        const desired = apparentSphereRadius * 1.15; // snug orbit just outside the globe's edge
         const cardHalfWidth = window.matchMedia("(min-width: 640px)").matches ? 96 : 80;
-        const maxSafeRadius = Math.max(120, container.clientWidth / 2 - cardHalfWidth - 12);
+        const desired = apparentSphereRadius + cardHalfWidth + ORBIT_GAP_PX;
+        // Clamp against the actual viewport, not the small globe sub-container
+        // (the container is only 560px wide at most, but cards are allowed to
+        // extend beyond its box into the section's surrounding whitespace) —
+        // clamping against the container itself was the bug that made cards
+        // land *inside* the globe on desktop.
+        const maxSafeRadius = Math.max(120, window.innerWidth / 2 - cardHalfWidth - 16);
         return Math.min(desired, maxSafeRadius);
       }
       timelineContainer.style.setProperty("--orbit-radius", `${computeOrbitRadiusPx(size)}px`);
