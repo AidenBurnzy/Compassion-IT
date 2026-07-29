@@ -27,6 +27,10 @@ export default async function BreakFixPage() {
 
   const heroHeadline = content["breakfix.heroHeadline"] || "On-Demand Break/Fix IT Support";
   const heroDescription = content["breakfix.heroDescription"] || "Fast, honest troubleshooting without long-term contracts. Get back to work with clear fixes and preventative guidance.";
+  const heroImage =
+    content["breakfix.heroImage"] ||
+    "https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80";
+  const heroImageAlt = content["breakfix.heroImage_alt"] || "Close-up of a circuit board, representing hands-on hardware repair";
   const introTitle = content["breakfix.introTitle"] || "Break / Fix IT Support";
   const introBody = content["breakfix.introBody"] || "Expert IT help the moment something breaks—no contracts, no pressure. I diagnose the problem, apply the right fix, and leave you with a simple prevention plan.";
   const highlightTitle = content["breakfix.highlightTitle"] || "Free IT Issue Review";
@@ -39,6 +43,19 @@ export default async function BreakFixPage() {
   return (
     <>
       <section className="relative flex min-h-[50vh] items-center justify-center overflow-hidden bg-black text-center text-white">
+        {/* eslint-disable-next-line @next/next/no-img-element -- plain img required by NGF standards for editable image fields (never next/image with fill) */}
+        <img
+          src={heroImage}
+          alt={heroImageAlt}
+          data-ngf-field="breakfix.heroImage"
+          data-ngf-label="Background Image"
+          data-ngf-type="image"
+          data-ngf-section="BreakFix"
+          data-ngf-aspect="16:9"
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/75 via-black/45 to-black/85" aria-hidden="true" />
+        <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-black" aria-hidden="true" />
         <div className="glow-orb -left-10 top-0 h-80 w-80 opacity-40" aria-hidden="true" />
         <div className="glow-orb -right-10 bottom-0 h-72 w-72 opacity-30" aria-hidden="true" style={{ animationDelay: "4s" }} />
         <div className="relative z-10 mx-auto max-w-2xl px-6 py-14">
