@@ -14,6 +14,7 @@ export default async function CybersecurityAssessmentPage() {
     <ServicePage
       content={content}
       sectionKey="svcSecurity"
+      slug="cybersecurity-assessment"
       defaults={{
         heroHeadline: "Cybersecurity Assessment",
         heroDescription: "Clear, practical security reviews without fear or jargon.",

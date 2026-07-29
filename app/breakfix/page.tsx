@@ -38,22 +38,33 @@ export default async function BreakFixPage() {
 
   return (
     <>
-      <section className="flex min-h-[50vh] items-center justify-center border-b-2 border-brand/30 bg-black text-center text-white">
-        <div className="mx-auto max-w-2xl px-6 py-14">
+      <section className="relative flex min-h-[50vh] items-center justify-center overflow-hidden bg-black text-center text-white">
+        <div className="glow-orb -left-10 top-0 h-80 w-80 opacity-40" aria-hidden="true" />
+        <div className="glow-orb -right-10 bottom-0 h-72 w-72 opacity-30" aria-hidden="true" style={{ animationDelay: "4s" }} />
+        <div className="relative z-10 mx-auto max-w-2xl px-6 py-14">
+          <span className="eyebrow animate-fade-in-up">Break/Fix</span>
           <h1
             data-ngf-field="breakfix.heroHeadline"
             data-ngf-label="Headline"
             data-ngf-type="text"
             data-ngf-section="BreakFix"
-            className="text-3xl font-bold sm:text-4xl"
+            className="animate-fade-in-up mt-4 text-3xl font-bold text-balance sm:text-4xl"
+            style={{ animationDelay: "0.1s" }}
           >
             {heroHeadline}
           </h1>
-          <p data-ngf-field="breakfix.heroDescription" data-ngf-label="Description" data-ngf-type="textarea" data-ngf-section="BreakFix" className="mt-4 text-lg text-white/85">
+          <p
+            data-ngf-field="breakfix.heroDescription"
+            data-ngf-label="Description"
+            data-ngf-type="textarea"
+            data-ngf-section="BreakFix"
+            className="animate-fade-in-up mt-4 text-lg text-white/85"
+            style={{ animationDelay: "0.2s" }}
+          >
             {heroDescription}
           </p>
-          <div className="mt-8 flex flex-wrap justify-center gap-4">
-            <Link href="/contact" className="btn-brand">
+          <div className="animate-fade-in-up mt-8 flex flex-wrap justify-center gap-4" style={{ animationDelay: "0.3s" }}>
+            <Link href="/contact?topic=breakfix" className="btn-brand">
               Schedule a Quick Fix
             </Link>
             <Link href="/#services" className="btn-outline">
@@ -81,7 +92,7 @@ export default async function BreakFixPage() {
         </div>
 
         <div className="mt-8 flex flex-wrap justify-center gap-4">
-          <Link href="/contact" className="btn-brand">
+          <Link href="/contact?topic=breakfix" className="btn-brand">
             Schedule Your Free Assessment
           </Link>
           <Link href="/#about" className="btn-outline">

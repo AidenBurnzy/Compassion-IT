@@ -12,8 +12,10 @@ export function Footer({ content }: FooterProps) {
   const copyright = content["footer.copyright"] || `© ${new Date().getFullYear()} CompassionIT Consulting. All rights reserved.`;
 
   return (
-    <footer className="border-t border-brand/30 bg-black text-white">
-      <div className="section-shell grid gap-10 py-12 md:grid-cols-3">
+    <footer className="relative overflow-hidden bg-black text-white">
+      <div className="section-divider" aria-hidden="true" />
+      <div className="glow-orb left-1/2 top-0 h-72 w-72 -translate-x-1/2 opacity-20" aria-hidden="true" />
+      <div className="section-shell relative grid gap-10 py-12 md:grid-cols-3">
         <div>
           <h3 className="text-lg font-bold text-brand">CompassionIT Consulting</h3>
           <p data-ngf-field="footer.tagline" data-ngf-label="Tagline" data-ngf-type="textarea" data-ngf-section="Footer" className="mt-3 text-white/80">
@@ -57,7 +59,8 @@ export function Footer({ content }: FooterProps) {
           </ul>
         </div>
       </div>
-      <div className="border-t border-white/10 py-5 text-center text-sm text-white/60">
+      <div className="section-divider opacity-40" aria-hidden="true" />
+      <div className="relative py-5 text-center text-sm text-white/60">
         <span data-ngf-field="footer.copyright" data-ngf-label="Copyright" data-ngf-type="text" data-ngf-section="Footer">
           {copyright}
         </span>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { NgfSiteContent } from "@/lib/ngf";
 
 type FormState = {
@@ -35,12 +35,28 @@ export function ContactForm({ content = {} }: Props) {
 
   const topicOptions = [
     { value: "", label: content["contactForm.options.topic.placeholder"] || "Select one" },
-    { value: "consulting", label: content["contactForm.options.topic.0"] || "Strategic consulting / vCIO" },
-    { value: "security", label: content["contactForm.options.topic.1"] || "Security or compliance" },
-    { value: "cloud", label: content["contactForm.options.topic.2"] || "Microsoft 365 / cloud" },
-    { value: "breakfix", label: content["contactForm.options.topic.3"] || "Break/Fix support" },
-    { value: "other", label: content["contactForm.options.topic.4"] || "Something else" },
+    { value: "business-continuity", label: content["contactForm.options.topic.0"] || "Business Continuity Planning" },
+    { value: "vcio-leadership", label: content["contactForm.options.topic.1"] || "vCIO & Strategic IT Leadership" },
+    { value: "vendor-project-management", label: content["contactForm.options.topic.2"] || "Vendor and Project Management" },
+    { value: "remote-monitoring", label: content["contactForm.options.topic.3"] || "Remote Monitoring and Patch Management" },
+    { value: "cybersecurity-assessment", label: content["contactForm.options.topic.4"] || "Cybersecurity Assessment" },
+    { value: "breakfix", label: content["contactForm.options.topic.5"] || "Break/Fix support" },
+    { value: "other", label: content["contactForm.options.topic.6"] || "Something else" },
   ];
+
+  // Pre-select the topic dropdown when arriving from a service page's CTA
+  // (e.g. /contact?topic=cybersecurity-assessment). Deliberately reads
+  // window.location.search directly instead of next/navigation's
+  // useSearchParams() to avoid requiring a Suspense boundary for static
+  // generation of this page.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const topic = new URLSearchParams(window.location.search).get("topic");
+    if (topic && topicOptions.some((opt) => opt.value === topic)) {
+      setForm((p) => ({ ...p, topic }));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -84,7 +100,7 @@ export function ContactForm({ content = {} }: Props) {
             required
             value={form.name}
             onChange={(e) => setForm((p) => ({ ...p, name: e.target.value }))}
-            className="rounded-xl border border-white/15 bg-black px-4 py-3 text-white outline-none ring-brand transition focus:ring-2"
+            className="w-full min-w-0 rounded-xl border border-white/15 bg-black px-4 py-3 text-white outline-none ring-brand transition focus:ring-2"
             type="text"
             name="name"
             autoComplete="name"
@@ -97,7 +113,7 @@ export function ContactForm({ content = {} }: Props) {
             required
             value={form.email}
             onChange={(e) => setForm((p) => ({ ...p, email: e.target.value }))}
-            className="rounded-xl border border-white/15 bg-black px-4 py-3 text-white outline-none ring-brand transition focus:ring-2"
+            className="w-full min-w-0 rounded-xl border border-white/15 bg-black px-4 py-3 text-white outline-none ring-brand transition focus:ring-2"
             type="email"
             name="email"
             autoComplete="email"
@@ -111,7 +127,7 @@ export function ContactForm({ content = {} }: Props) {
           <input
             value={form.phone}
             onChange={(e) => setForm((p) => ({ ...p, phone: e.target.value }))}
-            className="rounded-xl border border-white/15 bg-black px-4 py-3 text-white outline-none ring-brand transition focus:ring-2"
+            className="w-full min-w-0 rounded-xl border border-white/15 bg-black px-4 py-3 text-white outline-none ring-brand transition focus:ring-2"
             type="tel"
             name="phone"
             autoComplete="tel"
@@ -123,7 +139,7 @@ export function ContactForm({ content = {} }: Props) {
           <select
             value={form.topic}
             onChange={(e) => setForm((p) => ({ ...p, topic: e.target.value }))}
-            className="rounded-xl border border-white/15 bg-black px-4 py-3 text-white outline-none ring-brand transition focus:ring-2"
+            className="w-full min-w-0 rounded-xl border border-white/15 bg-black px-4 py-3 text-white outline-none ring-brand transition focus:ring-2"
             name="topic"
           >
             {topicOptions.map((opt) => (
@@ -140,7 +156,7 @@ export function ContactForm({ content = {} }: Props) {
         <textarea
           value={form.message}
           onChange={(e) => setForm((p) => ({ ...p, message: e.target.value }))}
-          className="min-h-32 rounded-xl border border-white/15 bg-black px-4 py-3 text-white outline-none ring-brand transition focus:ring-2"
+          className="w-full min-w-0 min-h-32 rounded-xl border border-white/15 bg-black px-4 py-3 text-white outline-none ring-brand transition focus:ring-2"
           name="message"
           placeholder="Briefly describe your need"
         />
@@ -167,6 +183,8 @@ export function ContactForm({ content = {} }: Props) {
         <span data-ngf-field="contactForm.options.topic.2" data-ngf-label="Topic Option 3" data-ngf-type="text" data-ngf-section="ContactForm">{topicOptions[3].label}</span>
         <span data-ngf-field="contactForm.options.topic.3" data-ngf-label="Topic Option 4" data-ngf-type="text" data-ngf-section="ContactForm">{topicOptions[4].label}</span>
         <span data-ngf-field="contactForm.options.topic.4" data-ngf-label="Topic Option 5" data-ngf-type="text" data-ngf-section="ContactForm">{topicOptions[5].label}</span>
+        <span data-ngf-field="contactForm.options.topic.5" data-ngf-label="Topic Option 6" data-ngf-type="text" data-ngf-section="ContactForm">{topicOptions[6].label}</span>
+        <span data-ngf-field="contactForm.options.topic.6" data-ngf-label="Topic Option 7" data-ngf-type="text" data-ngf-section="ContactForm">{topicOptions[7].label}</span>
       </div>
     </form>
   );

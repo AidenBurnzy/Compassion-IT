@@ -14,6 +14,7 @@ export default async function BusinessContinuityPage() {
     <ServicePage
       content={content}
       sectionKey="svcContinuity"
+      slug="business-continuity"
       defaults={{
         heroHeadline: "Business Continuity Planning",
         heroDescription: "Enterprise-tested continuity strategies, scaled for your business.",

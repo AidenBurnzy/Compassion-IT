@@ -24,6 +24,35 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-inter), "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  position: relative;
+}
+
+/* Ambient depth wash — a few soft, fixed crimson glows behind every page so
+   the flat black background reads as a lit space rather than a void. Purely
+   decorative, sits behind all content (z-index -1), never intercepts clicks. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background:
+    radial-gradient(600px circle at 15% 10%, rgba(220, 20, 60, 0.14), transparent 60%),
+    radial-gradient(700px circle at 85% 30%, rgba(220, 20, 60, 0.10), transparent 60%),
+    radial-gradient(800px circle at 50% 90%, rgba(176, 16, 48, 0.12), transparent 60%);
+}
+
+/* Subtle film-grain texture for tactile depth, layered above the glow wash
+   but still behind content. Very low opacity — meant to be felt, not seen. */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.035;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 html {
@@ -70,15 +99,98 @@ body {
 }
 
 .btn-brand {
-  @apply inline-flex min-h-11 items-center justify-center rounded-full bg-brand px-6 py-3 text-sm font-semibold text-white transition duration-300 hover:bg-brand-strong;
+  @apply inline-flex min-h-11 items-center justify-center rounded-full px-6 py-3 text-sm font-semibold text-white transition duration-300;
+  background: linear-gradient(135deg, var(--brand), var(--brand-strong));
+  box-shadow: 0 4px 20px rgba(220, 20, 60, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.08) inset;
+}
+
+.btn-brand:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(220, 20, 60, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.12) inset;
+}
+
+.btn-brand:active {
+  transform: translateY(0);
 }
 
 .btn-outline {
-  @apply inline-flex min-h-11 items-center justify-center rounded-full border border-brand px-6 py-3 text-sm font-semibold text-white transition duration-300 hover:bg-brand/10;
+  @apply inline-flex min-h-11 items-center justify-center rounded-full border border-brand px-6 py-3 text-sm font-semibold text-white backdrop-blur-sm transition duration-300;
+  background: rgba(220, 20, 60, 0.04);
+}
+
+.btn-outline:hover {
+  background: rgba(220, 20, 60, 0.14);
+  border-color: var(--brand);
+  box-shadow: 0 4px 20px rgba(220, 20, 60, 0.25);
+  transform: translateY(-2px);
 }
 
 .card-soft {
-  @apply rounded-2xl border border-white/10 bg-surface p-6;
+  @apply relative rounded-2xl border border-white/10 p-6 transition duration-300;
+  background: linear-gradient(160deg, var(--surface), #0a0a0a);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.05) inset, 0 12px 30px rgba(0, 0, 0, 0.35);
+}
+
+.card-soft:hover {
+  border-color: rgba(220, 20, 60, 0.35);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.05) inset, 0 16px 40px rgba(220, 20, 60, 0.12);
+  transform: translateY(-3px);
+}
+
+/* Decorative blurred glow circle — drop one of these behind a section's
+   content (aria-hidden, absolutely positioned) to add ambient light without
+   touching any real content or NGF-annotated fields. */
+.glow-orb {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(70px);
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient(circle, rgba(220, 20, 60, 0.55), transparent 70%);
+  animation: glow-drift 12s ease-in-out infinite;
+}
+
+@keyframes glow-drift {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(2%, -3%) scale(1.06); }
+}
+
+/* Thin gradient rule for separating sections with a soft accent instead of a
+   hard border line. */
+.section-divider {
+  height: 1px;
+  width: 100%;
+  background: linear-gradient(90deg, transparent, rgba(220, 20, 60, 0.5), transparent);
+}
+
+/* Small uppercase tag used above section headings for a bit more editorial
+   hierarchy ("eyebrow" text). */
+.eyebrow {
+  @apply inline-flex items-center gap-2 rounded-full border border-brand/40 bg-brand/10 px-3 py-1 text-xs font-semibold uppercase tracking-widest text-brand;
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.7s ease both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glow-orb {
+    animation: none;
+  }
+  .animate-fade-in-up {
+    animation: none;
+  }
 }
 
 input,

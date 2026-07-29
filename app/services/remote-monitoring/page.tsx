@@ -14,6 +14,7 @@ export default async function RemoteMonitoringPage() {
     <ServicePage
       content={content}
       sectionKey="svcMonitoring"
+      slug="remote-monitoring"
       defaults={{
         heroHeadline: "Remote Monitoring and Patch Management",
         heroDescription: "Proactive protection without unnecessary disruption.",

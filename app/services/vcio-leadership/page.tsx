@@ -14,6 +14,7 @@ export default async function VcioLeadershipPage() {
     <ServicePage
       content={content}
       sectionKey="svcVcio"
+      slug="vcio-leadership"
       defaults={{
         heroHeadline: "vCIO & Strategic IT Leadership",
         heroDescription: "Executive-level IT guidance without the full-time cost.",

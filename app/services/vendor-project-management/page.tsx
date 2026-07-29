@@ -14,6 +14,7 @@ export default async function VendorProjectManagementPage() {
     <ServicePage
       content={content}
       sectionKey="svcVendor"
+      slug="vendor-project-management"
       defaults={{
         heroHeadline: "Vendor and Project Management",
         heroDescription: "Expert oversight that keeps IT projects on track and on budget.",

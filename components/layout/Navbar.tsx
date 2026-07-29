@@ -21,7 +21,7 @@ export function Navbar({ content }: NavbarProps) {
   const contactLabel = content["nav.contact"] || "Contact";
 
   return (
-    <header className="sticky top-0 z-50 border-b border-brand/30 bg-black shadow-[0_2px_10px_rgba(220,20,60,0.2)]">
+    <header className="sticky top-0 z-50 bg-black/90 shadow-[0_2px_20px_rgba(220,20,60,0.18)] backdrop-blur-md">
       <nav className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 md:px-8">
         <Link href="/" className="flex items-center" onClick={() => setMenuOpen(false)}>
           <Image src="/logo.png" alt="CompassionIT logo" width={180} height={60} priority className="h-auto w-[140px] md:w-[180px]" />
@@ -86,6 +86,7 @@ export function Navbar({ content }: NavbarProps) {
           </li>
         </ul>
       </nav>
+      <div className="section-divider" aria-hidden="true" />
 
       {/* Mobile menu */}
       <div id="mobile-nav" className={`${menuOpen ? "block" : "hidden"} border-t border-brand/30 bg-black lg:hidden`}>

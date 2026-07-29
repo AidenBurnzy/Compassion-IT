@@ -34,7 +34,7 @@ export default async function Home() {
   return (
     <>
       {/* Hero */}
-      <section className="relative flex min-h-[70vh] items-center justify-center overflow-hidden border-b-2 border-brand/30 bg-black text-center text-white">
+      <section className="relative flex min-h-[70vh] items-center justify-center overflow-hidden bg-black text-center text-white">
         {/* eslint-disable-next-line @next/next/no-img-element -- plain img required by NGF standards for editable image fields (never next/image with fill) */}
         <img
           src={heroBackgroundImage}
@@ -45,14 +45,24 @@ export default async function Home() {
           data-ngf-section="Hero"
           className="absolute inset-0 h-full w-full object-cover"
         />
-        <div className="absolute inset-0 bg-black/40" aria-hidden="true" />
+        {/* Layered overlay: a directional gradient (darker at the edges,
+            lighter center-stage on the text) instead of a flat tint, plus a
+            bottom fade so the hero melts into the next section rather than
+            stopping at a hard line. */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-black/80" aria-hidden="true" />
+        <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-b from-transparent to-black" aria-hidden="true" />
+        <div className="glow-orb -left-16 top-10 h-72 w-72 sm:h-96 sm:w-96" aria-hidden="true" />
+        <div className="glow-orb -right-16 bottom-0 h-64 w-64 opacity-60 sm:h-80 sm:w-80" aria-hidden="true" style={{ animationDelay: "3s" }} />
+
         <div className="relative z-10 mx-auto max-w-2xl px-6 py-16">
+          <span className="eyebrow animate-fade-in-up">IT Support &amp; Consulting · Grand Rapids, MI</span>
           <h1
             data-ngf-field="hero.headline"
             data-ngf-label="Headline"
             data-ngf-type="text"
             data-ngf-section="Hero"
-            className="text-3xl font-bold sm:text-4xl md:text-5xl"
+            className="animate-fade-in-up mt-5 text-3xl font-bold text-balance sm:text-4xl md:text-5xl"
+            style={{ animationDelay: "0.1s" }}
           >
             {heroHeadline}
           </h1>
@@ -61,7 +71,8 @@ export default async function Home() {
             data-ngf-label="Description"
             data-ngf-type="textarea"
             data-ngf-section="Hero"
-            className="mt-4 text-lg text-white/85"
+            className="animate-fade-in-up mt-4 text-lg text-white/85"
+            style={{ animationDelay: "0.2s" }}
           >
             {heroDescription}
           </p>
@@ -71,7 +82,8 @@ export default async function Home() {
             data-ngf-label="Button Text"
             data-ngf-type="text"
             data-ngf-section="Hero"
-            className="btn-brand mt-8 inline-flex"
+            className="btn-brand animate-fade-in-up mt-8 inline-flex"
+            style={{ animationDelay: "0.3s" }}
           >
             {heroCta}
           </Link>
@@ -79,19 +91,23 @@ export default async function Home() {
       </section>
 
       {/* Interactive globe / services teaser */}
-      <div id="services">
+      <div id="services" className="relative bg-black">
         <InteractiveGlobe content={content} />
       </div>
 
+      <div className="section-divider" aria-hidden="true" />
+
       {/* About */}
-      <section id="about" className="section-shell">
-        <div className="mx-auto max-w-3xl text-center">
+      <section id="about" className="section-shell relative overflow-hidden">
+        <div className="glow-orb left-1/2 top-0 h-[28rem] w-[28rem] -translate-x-1/2 opacity-40" aria-hidden="true" />
+        <div className="card-soft relative z-10 mx-auto max-w-3xl px-6 py-10 text-center sm:px-10 sm:py-12">
+          <span className="eyebrow">About</span>
           <h2
             data-ngf-field="about.title"
             data-ngf-label="Section Title"
             data-ngf-type="text"
             data-ngf-section="About"
-            className="text-2xl font-bold text-brand sm:text-3xl"
+            className="mt-4 text-2xl font-bold text-brand sm:text-3xl"
           >
             {aboutTitle}
           </h2>
@@ -113,12 +129,13 @@ export default async function Home() {
           >
             {aboutBody1}
           </p>
+          <div className="section-divider my-6" aria-hidden="true" />
           <p
             data-ngf-field="about.emphasis"
             data-ngf-label="Emphasis Line"
             data-ngf-type="text"
             data-ngf-section="About"
-            className="mt-4 text-lg font-semibold text-brand"
+            className="text-lg font-semibold text-brand"
           >
             {aboutEmphasis}
           </p>

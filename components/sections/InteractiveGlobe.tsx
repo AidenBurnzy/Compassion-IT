@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import type { NgfSiteContent } from "@/lib/ngf";
 
 type Props = {
@@ -24,22 +24,20 @@ const cards = [
 // rendered below. To make the cards actually orbit at a well-defined distance
 // from the globe's rendered edge, the orbit radius is derived from the
 // sphere's real on-screen silhouette size (same camera FOV / distance /
-// radius used to render it) plus the card's own half-width plus a tunable
-// gap — negative means an intentional overlap with the globe's edge.
-// DEFAULT_ORBIT_GAP_PX is the baked-in value used once a gap is picked via
-// the dev-only slider below (see the "Orbit gap" control at the bottom of
-// this component).
-const DEFAULT_ORBIT_GAP_PX = -95;
+// radius used to render it) plus the card's own half-width plus a gap.
+// ORBIT_GAP_PX was tuned live (via a temporary dev-only slider, since
+// removed) and settled at -95, an intentional overlap with the globe's edge.
+const ORBIT_GAP_PX = -95;
 const SPHERE_RADIUS = 1.5;
 const CAMERA_Z = 4.5;
 const CAMERA_FOV_DEG = 45;
 
-function computeOrbitRadiusPx(canvasSize: number, gapPx: number) {
+function computeOrbitRadiusPx(canvasSize: number) {
   const sphereAngle = Math.asin(SPHERE_RADIUS / CAMERA_Z);
   const halfFovRad = (CAMERA_FOV_DEG / 2) * (Math.PI / 180);
   const apparentSphereRadius = (Math.tan(sphereAngle) / Math.tan(halfFovRad)) * (canvasSize / 2);
   const cardHalfWidth = typeof window !== "undefined" && window.matchMedia("(min-width: 640px)").matches ? 96 : 80;
-  const desired = apparentSphereRadius + cardHalfWidth + gapPx;
+  const desired = apparentSphereRadius + cardHalfWidth + ORBIT_GAP_PX;
   // Clamp against the actual viewport, not the small globe sub-container (the
   // container is only 560px wide at most, but cards are allowed to extend
   // beyond its box into the section's surrounding whitespace) — clamping
@@ -59,24 +57,6 @@ export function InteractiveGlobe({ content }: Props) {
   const dragHintRef = useRef<HTMLDivElement>(null);
   const timelineContainerRef = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLDivElement>(null);
-  const canvasSizeRef = useRef(300);
-  const orbitGapRef = useRef(DEFAULT_ORBIT_GAP_PX);
-  const [orbitGapDisplay, setOrbitGapDisplay] = useState(DEFAULT_ORBIT_GAP_PX);
-
-  // Dev-only live tuning: drag the slider to see the change instantly (no
-  // Three.js re-init, just a CSS variable update), then tell whoever's
-  // driving the code the final number so it can be baked in as
-  // DEFAULT_ORBIT_GAP_PX. This whole block is stripped from the production
-  // bundle's rendered output via the NODE_ENV check below.
-  function handleGapChange(value: number) {
-    orbitGapRef.current = value;
-    setOrbitGapDisplay(value);
-    const timelineContainer = timelineContainerRef.current;
-    if (timelineContainer) {
-      timelineContainer.style.setProperty("--orbit-radius", `${computeOrbitRadiusPx(canvasSizeRef.current, value)}px`);
-    }
-  }
-
   useEffect(() => {
     let threeJsLoaded = false;
     let cleanupFns: Array<() => void> = [];
@@ -144,8 +124,7 @@ export function InteractiveGlobe({ content }: Props) {
       renderer.setSize(size, size);
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
 
-      canvasSizeRef.current = size;
-      timelineContainer.style.setProperty("--orbit-radius", `${computeOrbitRadiusPx(size, orbitGapRef.current)}px`);
+      timelineContainer.style.setProperty("--orbit-radius", `${computeOrbitRadiusPx(size)}px`);
 
       const geometry = new THREE.SphereGeometry(1.5, 32, 32);
       const material = new THREE.MeshPhongMaterial({
@@ -341,8 +320,7 @@ export function InteractiveGlobe({ content }: Props) {
       const onResize = () => {
         const newSize = Math.min(container.clientWidth, container.clientHeight, 1000);
         renderer.setSize(newSize, newSize);
-        canvasSizeRef.current = newSize;
-        timelineContainer.style.setProperty("--orbit-radius", `${computeOrbitRadiusPx(newSize, orbitGapRef.current)}px`);
+        timelineContainer.style.setProperty("--orbit-radius", `${computeOrbitRadiusPx(newSize)}px`);
       };
       window.addEventListener("resize", onResize);
 
@@ -386,14 +364,15 @@ export function InteractiveGlobe({ content }: Props) {
   }, []);
 
   return (
-    <section ref={sectionRef} className="globe-section relative py-16 md:py-24">
+    <section ref={sectionRef} className="globe-section relative overflow-hidden py-16 md:py-24">
       <div className="section-shell !py-0 text-center">
+        <span className="eyebrow">Services</span>
         <h2
           data-ngf-field="servicesSection.title"
           data-ngf-label="Section Title"
           data-ngf-type="text"
           data-ngf-section="Services"
-          className="text-2xl font-bold sm:text-3xl md:text-4xl"
+          className="mt-4 text-2xl font-bold sm:text-3xl md:text-4xl"
         >
           {content["servicesSection.title"] || "What We Help With"}
         </h2>
@@ -409,6 +388,7 @@ export function InteractiveGlobe({ content }: Props) {
       </div>
 
       <div className="relative mx-auto mt-12 flex h-[420px] w-full max-w-[560px] items-center justify-center sm:h-[520px] md:h-[620px]">
+        <div className="glow-orb left-1/2 top-1/2 h-[26rem] w-[26rem] -translate-x-1/2 -translate-y-1/2 opacity-50" aria-hidden="true" />
         <div className="relative h-full w-full">
           <canvas ref={canvasRef} className="absolute left-1/2 top-1/2 h-full w-full -translate-x-1/2 -translate-y-1/2 cursor-grab" />
           <div ref={dragHintRef} className="drag-hint pointer-events-none absolute left-1/2 top-[8%] -translate-x-1/2 rounded-full bg-black/60 px-3 py-1 text-xs text-white/80 transition-opacity duration-300">
@@ -457,25 +437,6 @@ export function InteractiveGlobe({ content }: Props) {
           </div>
         </div>
       </div>
-
-      {process.env.NODE_ENV !== "production" && (
-        <div className="mx-auto mt-4 flex max-w-xs flex-col items-center gap-1 rounded-lg border border-brand/30 bg-black/70 px-4 py-3 text-xs text-white/80">
-          <label htmlFor="orbit-gap-slider" className="font-semibold">
-            Dev only — Orbit gap: {orbitGapDisplay}px
-          </label>
-          <input
-            id="orbit-gap-slider"
-            type="range"
-            min={-150}
-            max={150}
-            step={5}
-            value={orbitGapDisplay}
-            onChange={(e) => handleGapChange(Number(e.target.value))}
-            className="w-full"
-          />
-          <span className="text-white/50">Drag until it looks right, then tell me the number.</span>
-        </div>
-      )}
 
       <div className="mt-10 flex flex-wrap justify-center gap-4">
         <Link
