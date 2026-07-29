@@ -3,9 +3,9 @@ import { ContactForm } from "@/components/sections/ContactForm";
 import { getNgfContent } from "@/lib/ngf";
 
 export const metadata: Metadata = {
-  title: "Contact Us",
+  title: "Contact Us | IT Support in Grand Rapids & Allendale, MI",
   description:
-    "Get in touch with CompassionIT Consulting for expert IT support and consulting services. Free assessments available. Call 616.422.0228 or email us today.",
+    "Get in touch with CompassionIT Consulting for expert IT support and tech support in Grand Rapids, Allendale, and West Michigan. Free assessments available. Call 616.422.0228 or email us today.",
 };
 
 export default async function ContactPage() {
@@ -18,6 +18,9 @@ export default async function ContactPage() {
   const email = content["contactPage.email"] || "info@CompassionITConsulting.com";
   const phone = content["contactPage.phone"] || "616.422.0228";
   const servicesLine = content["contactPage.servicesLine"] || "Strategy, audits, cloud, security, break/fix.";
+  const serviceArea =
+    content["contactPage.serviceArea"] ||
+    "Grand Rapids, Allendale, Grandville, Walker, Wyoming, and the greater West Michigan area.";
 
   return (
     <section className="section-shell">
@@ -59,6 +62,12 @@ export default async function ContactPage() {
               <span className="font-semibold text-white">Services:</span>{" "}
               <span data-ngf-field="contactPage.servicesLine" data-ngf-label="Services Line" data-ngf-type="text" data-ngf-section="ContactPage">
                 {servicesLine}
+              </span>
+            </li>
+            <li>
+              <span className="font-semibold text-white">Service Area:</span>{" "}
+              <span data-ngf-field="contactPage.serviceArea" data-ngf-label="Service Area" data-ngf-type="textarea" data-ngf-section="ContactPage">
+                {serviceArea}
               </span>
             </li>
           </ul>

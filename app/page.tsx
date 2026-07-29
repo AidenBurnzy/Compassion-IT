@@ -4,9 +4,9 @@ import { InteractiveGlobe } from "@/components/sections/InteractiveGlobe";
 import { getNgfContent } from "@/lib/ngf";
 
 export const metadata: Metadata = {
-  title: "IT Support & Consulting Services | CompassionIT - Grand Rapids, MI",
+  title: "IT Support & Tech Support in Grand Rapids & Allendale, MI | CompassionIT",
   description:
-    "Expert IT support, cybersecurity, business continuity planning, and strategic IT leadership for small and mid-sized businesses in Grand Rapids, MI.",
+    "Expert IT support, tech support, cybersecurity, business continuity planning, and strategic IT leadership for small and mid-sized businesses in Grand Rapids, Allendale, and the greater West Michigan area.",
 };
 
 export default async function Home() {

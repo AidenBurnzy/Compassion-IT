@@ -3,9 +3,9 @@ import { ServicePage } from "@/components/sections/ServicePage";
 import { getNgfContent } from "@/lib/ngf";
 
 export const metadata: Metadata = {
-  title: "Remote Monitoring & Patch Management Services",
+  title: "Remote Monitoring & Patch Management Services | Grand Rapids, MI",
   description:
-    "Proactive IT monitoring and patch management services. Keep systems secure and stable with automated updates, security patches, and 24/7 system monitoring.",
+    "Proactive IT monitoring and patch management for businesses in Grand Rapids, Allendale, and West Michigan. Keep systems secure and stable with automated updates and 24/7 monitoring.",
 };
 
 export default async function RemoteMonitoringPage() {

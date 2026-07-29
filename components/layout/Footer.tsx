@@ -5,6 +5,9 @@ type FooterProps = { content: NgfSiteContent };
 
 export function Footer({ content }: FooterProps) {
   const tagline = content["footer.tagline"] || "Guiding IT with Heart — compassionate solutions that empower businesses to thrive.";
+  const serviceArea =
+    content["footer.serviceArea"] ||
+    "Proudly serving Grand Rapids, Allendale, Grandville, Walker, Wyoming, and the greater West Michigan area.";
   const quickLinksLabel = content["footer.quickLinksLabel"] || "Quick Links";
   const contactLabel = content["footer.contactLabel"] || "Contact Info";
   const email = content["footer.email"] || "info@CompassionITConsulting.com";
@@ -20,6 +23,9 @@ export function Footer({ content }: FooterProps) {
           <h3 className="text-lg font-bold text-brand">CompassionIT Consulting</h3>
           <p data-ngf-field="footer.tagline" data-ngf-label="Tagline" data-ngf-type="textarea" data-ngf-section="Footer" className="mt-3 text-white/80">
             {tagline}
+          </p>
+          <p data-ngf-field="footer.serviceArea" data-ngf-label="Service Area" data-ngf-type="textarea" data-ngf-section="Footer" className="mt-2 text-sm text-white/60">
+            {serviceArea}
           </p>
         </div>
 

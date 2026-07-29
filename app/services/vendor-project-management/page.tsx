@@ -3,9 +3,9 @@ import { ServicePage } from "@/components/sections/ServicePage";
 import { getNgfContent } from "@/lib/ngf";
 
 export const metadata: Metadata = {
-  title: "IT Vendor & Project Management Services",
+  title: "IT Vendor & Project Management Services | Grand Rapids, MI",
   description:
-    "Expert IT vendor and project management. Keep projects on track, on budget, and aligned with your goals. Professional oversight for IT implementations and migrations.",
+    "Expert IT vendor and project management for businesses in Grand Rapids, Allendale, and West Michigan. Professional oversight for IT implementations and migrations.",
 };
 
 export default async function VendorProjectManagementPage() {

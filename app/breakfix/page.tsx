@@ -3,9 +3,9 @@ import Link from "next/link";
 import { getNgfContent } from "@/lib/ngf";
 
 export const metadata: Metadata = {
-  title: "Break/Fix IT Support & Computer Repair",
+  title: "Break/Fix IT Support & Computer Repair | Grand Rapids, MI",
   description:
-    "Fast, reliable break/fix IT support and computer repair services. Pay only when you need help - no contracts required. Expert troubleshooting and repairs.",
+    "Fast, reliable break/fix IT support and computer repair for Grand Rapids, Allendale, and West Michigan businesses. Pay only when you need help - no contracts required.",
 };
 
 const problemCards = [

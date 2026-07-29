@@ -3,9 +3,9 @@ import { ServicePage } from "@/components/sections/ServicePage";
 import { getNgfContent } from "@/lib/ngf";
 
 export const metadata: Metadata = {
-  title: "Virtual CIO (vCIO) & Strategic IT Leadership Services",
+  title: "Virtual CIO (vCIO) & Strategic IT Leadership | Grand Rapids, MI",
   description:
-    "Fractional CIO and strategic IT leadership without the full-time cost. Get executive-level IT guidance, technology roadmaps, and strategic planning for your business.",
+    "Fractional CIO and strategic IT leadership for businesses in Grand Rapids, Allendale, and West Michigan. Get executive-level IT guidance and technology roadmaps without the full-time cost.",
 };
 
 export default async function VcioLeadershipPage() {

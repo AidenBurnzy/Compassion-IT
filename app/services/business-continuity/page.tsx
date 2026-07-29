@@ -3,9 +3,9 @@ import { ServicePage } from "@/components/sections/ServicePage";
 import { getNgfContent } from "@/lib/ngf";
 
 export const metadata: Metadata = {
-  title: "Business Continuity Planning & Disaster Recovery",
+  title: "Business Continuity Planning & Disaster Recovery | Grand Rapids, MI",
   description:
-    "Enterprise-tested business continuity planning for small businesses. Protect your operations from disruptions with practical, affordable disaster recovery plans.",
+    "Enterprise-tested business continuity planning for small businesses in Grand Rapids, Allendale, and West Michigan. Protect your operations with practical, affordable disaster recovery plans.",
 };
 
 export default async function BusinessContinuityPage() {

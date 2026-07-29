@@ -3,9 +3,9 @@ import { ServicePage } from "@/components/sections/ServicePage";
 import { getNgfContent } from "@/lib/ngf";
 
 export const metadata: Metadata = {
-  title: "Cybersecurity Assessment & Security Audits",
+  title: "Cybersecurity Assessment & Security Audits | Grand Rapids, MI",
   description:
-    "Professional cybersecurity assessments and security audits. Identify vulnerabilities, strengthen defenses, and protect your business without fear tactics or jargon.",
+    "Professional cybersecurity assessments and security audits for businesses in Grand Rapids, Allendale, and West Michigan. Identify vulnerabilities and strengthen defenses without fear tactics or jargon.",
 };
 
 export default async function CybersecurityAssessmentPage() {
