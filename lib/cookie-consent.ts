@@ -30,3 +30,23 @@ export function clearConsent() {
   document.cookie = `${CONSENT_COOKIE_NAME}=; path=/; max-age=0; SameSite=Lax`;
   window.dispatchEvent(new CustomEvent<ConsentValue | null>(CONSENT_EVENT, { detail: null }));
 }
+
+// First-party cookies GA4 (_ga, _ga_<container-id>, _gid, _gat) and
+// Microsoft Clarity (_clck, _clsk) set directly on this domain once their
+// scripts run. Deleting them is what actually lets "Decline" mean something
+// for a visitor who had previously accepted — see clearTrackingCookies().
+const TRACKING_COOKIE_PATTERNS = [/^_ga$/, /^_ga_/, /^_gid$/, /^_gat/, /^_clck$/, /^_clsk$/];
+
+export function clearTrackingCookies() {
+  if (typeof document === "undefined") return;
+  const names = document.cookie
+    .split(";")
+    .map((c) => c.split("=")[0]?.trim())
+    .filter((name): name is string => Boolean(name));
+
+  for (const name of names) {
+    if (TRACKING_COOKIE_PATTERNS.some((pattern) => pattern.test(name))) {
+      document.cookie = `${name}=; path=/; max-age=0; SameSite=Lax`;
+    }
+  }
+}

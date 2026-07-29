@@ -2,9 +2,15 @@
 
 import Link from "next/link";
 import Script from "next/script";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { NgfSiteContent } from "@/lib/ngf";
-import { CONSENT_EVENT, getStoredConsent, storeConsent, type ConsentValue } from "@/lib/cookie-consent";
+import {
+  CONSENT_EVENT,
+  clearTrackingCookies,
+  getStoredConsent,
+  storeConsent,
+  type ConsentValue,
+} from "@/lib/cookie-consent";
 
 type AnalyticsProps = {
   gaId: string;
@@ -36,6 +42,29 @@ export function Analytics({ gaId, clarityId, content }: AnalyticsProps) {
 
   const scriptsAllowed = consent === "accepted";
   const showBanner = ready && consent === null;
+
+  // Once GA4/Clarity have actually loaded, their script objects (window.gtag,
+  // window.clarity) and any cookies they've dropped stay alive in the page
+  // for the rest of this session even if React stops rendering the <Script>
+  // tags — removing a script element from the DOM doesn't undo what it
+  // already did. This ref remembers "scripts ran at some point this
+  // session" so Decline can force a real teardown (below) instead of just
+  // silently failing to un-track someone who already accepted.
+  const scriptsEverLoadedRef = useRef(false);
+  useEffect(() => {
+    if (scriptsAllowed) scriptsEverLoadedRef.current = true;
+  }, [scriptsAllowed]);
+
+  function handleDecline() {
+    storeConsent("declined");
+    clearTrackingCookies();
+    if (scriptsEverLoadedRef.current) {
+      // GA4/Clarity were already running in this tab — the only reliable
+      // way to fully stop them (vs. just stopping anything new) is a fresh
+      // page load, so the server-rendered response never re-injects them.
+      window.location.reload();
+    }
+  }
 
   const message =
     content["cookieBanner.message"] ||
@@ -93,7 +122,7 @@ export function Analytics({ gaId, clarityId, content }: AnalyticsProps) {
             <div className="flex shrink-0 gap-3">
               <button
                 type="button"
-                onClick={() => storeConsent("declined")}
+                onClick={handleDecline}
                 data-ngf-field="cookieBanner.declineText"
                 data-ngf-label="Decline Button Text"
                 data-ngf-type="text"
