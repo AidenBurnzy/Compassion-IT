@@ -164,9 +164,13 @@ body {
 }
 
 /* Small uppercase tag used above section headings for a bit more editorial
-   hierarchy ("eyebrow" text). */
+   hierarchy ("eyebrow" text). Solid-ish dark backdrop (not just a brand-tinted
+   wash) so the crimson text stays legible over hero photos and the crimson
+   glow-orb decorations behind it -- a faint brand-tinted background reads
+   fine over plain black but washes out badly wherever a glow-orb or bright
+   photo area sits behind it. */
 .eyebrow {
-  @apply inline-flex items-center gap-2 rounded-full border border-brand/40 bg-brand/10 px-3 py-1 text-xs font-semibold uppercase tracking-widest text-brand;
+  @apply inline-flex items-center gap-2 rounded-full border border-brand/50 bg-black/70 px-3 py-1 text-xs font-semibold uppercase tracking-widest text-brand backdrop-blur-sm;
 }
 
 @keyframes fade-in-up {
