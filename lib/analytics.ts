@@ -1,10 +1,11 @@
-// Both IDs are optional. Neither Google Analytics nor Microsoft Clarity are
-// wired up to a live account yet — set NEXT_PUBLIC_GA_ID / NEXT_PUBLIC_CLARITY_ID
-// in Vercel once those accounts exist. Until then, GoogleAnalytics/Clarity
-// script tags in app/layout.tsx render nothing (see the `if (!id) return null`
-// guards there) rather than shipping broken tracking calls.
-export const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_ID || ""
-export const CLARITY_PROJECT_ID = process.env.NEXT_PUBLIC_CLARITY_ID || ""
+// Live GA4 / Microsoft Clarity IDs, provided by Nick. These are public
+// tracking identifiers (they're visible in every page's rendered HTML
+// regardless), so hardcoding them as the default is fine — no secret here.
+// NEXT_PUBLIC_GA_ID / NEXT_PUBLIC_CLARITY_ID in Vercel still override these
+// if the accounts ever change. Actual script injection only happens after a
+// visitor accepts the cookie banner — see components/analytics/Analytics.tsx.
+export const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_ID || "G-4R97WDC9S8"
+export const CLARITY_PROJECT_ID = process.env.NEXT_PUBLIC_CLARITY_ID || "xtmieip28j"
 
 declare global {
   interface Window {

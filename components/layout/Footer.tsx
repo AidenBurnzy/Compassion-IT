@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { NgfSiteContent } from "@/lib/ngf";
+import { CookiePreferencesButton } from "@/components/analytics/CookiePreferencesButton";
 
 type FooterProps = { content: NgfSiteContent };
 
@@ -38,6 +39,10 @@ export function Footer({ content }: FooterProps) {
             <li><Link href="/#about" className="hover:underline">About Us</Link></li>
             <li><Link href="/contact" className="hover:underline">Contact</Link></li>
             <li><Link href="/breakfix" className="hover:underline">Support</Link></li>
+            <li><Link href="/privacy-policy" className="hover:underline">Privacy Policy</Link></li>
+            <li>
+              <CookiePreferencesButton className="text-left hover:underline">Cookie Preferences</CookiePreferencesButton>
+            </li>
           </ul>
         </div>
 
