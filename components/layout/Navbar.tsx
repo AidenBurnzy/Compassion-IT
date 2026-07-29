@@ -30,7 +30,12 @@ export function Navbar({ content }: NavbarProps) {
         <button
           type="button"
           className="rounded-md border border-white/30 px-3 py-2 text-sm font-semibold text-white lg:hidden"
-          onClick={() => setMenuOpen((v) => !v)}
+          onClick={() =>
+            setMenuOpen((v) => {
+              if (v) setServicesOpen(false);
+              return !v;
+            })
+          }
           aria-expanded={menuOpen}
           aria-controls="mobile-nav"
           aria-label="Toggle navigation menu"
@@ -94,11 +99,37 @@ export function Navbar({ content }: NavbarProps) {
           <Link href="/" className="rounded-md px-3 py-2 text-white hover:bg-brand" onClick={() => setMenuOpen(false)}>
             {homeLabel}
           </Link>
-          {services.map((s) => (
-            <Link key={s.slug} href={`/services/${s.slug}`} className="rounded-md px-3 py-2 pl-6 text-white/90 hover:bg-brand" onClick={() => setMenuOpen(false)}>
-              {s.navLabel}
-            </Link>
-          ))}
+
+          <button
+            type="button"
+            className="flex w-full items-center justify-between rounded-md px-3 py-2 text-left text-white hover:bg-brand"
+            aria-haspopup="true"
+            aria-expanded={servicesOpen}
+            onClick={() => setServicesOpen((v) => !v)}
+          >
+            <span>{servicesLabel}</span>
+            <span aria-hidden="true" className={`transition-transform ${servicesOpen ? "rotate-180" : ""}`}>
+              ▾
+            </span>
+          </button>
+          {servicesOpen && (
+            <div className="flex flex-col gap-1">
+              {services.map((s) => (
+                <Link
+                  key={s.slug}
+                  href={`/services/${s.slug}`}
+                  className="rounded-md px-3 py-2 pl-6 text-sm text-white/90 hover:bg-brand"
+                  onClick={() => {
+                    setMenuOpen(false);
+                    setServicesOpen(false);
+                  }}
+                >
+                  {s.navLabel}
+                </Link>
+              ))}
+            </div>
+          )}
+
           <Link href="/breakfix" className="rounded-md px-3 py-2 text-white hover:bg-brand" onClick={() => setMenuOpen(false)}>
             {breakfixLabel}
           </Link>
