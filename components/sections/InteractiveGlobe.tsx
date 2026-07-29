@@ -338,6 +338,13 @@ export function InteractiveGlobe({ content }: Props) {
       });
     }
 
+    // Mobile shows a plain list instead of the WebGL globe (see the JSX
+    // below) -- dragging a 3D sphere to find a link doesn't work well on
+    // small touch screens. Don't even load/init Three.js on mobile viewports
+    // so phones skip the CDN fetch, WebGL context, and render loop entirely.
+    const isDesktopViewport = () => window.matchMedia("(min-width: 640px)").matches;
+    let sectionSeen = false;
+
     const section = sectionRef.current;
     let observer: IntersectionObserver | null = null;
     if (section) {
@@ -345,8 +352,11 @@ export function InteractiveGlobe({ content }: Props) {
         (entries) => {
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
-              loadThreeJs();
-              observer?.disconnect();
+              sectionSeen = true;
+              if (isDesktopViewport()) {
+                loadThreeJs();
+                observer?.disconnect();
+              }
             }
           });
         },
@@ -355,9 +365,22 @@ export function InteractiveGlobe({ content }: Props) {
       observer.observe(section);
     }
 
+    // Safety net for resize/rotation crossing the sm breakpoint after the
+    // section has already scrolled into view (e.g. a tablet rotated to
+    // landscape, or a desktop browser window resized wider) -- load the
+    // globe then instead of leaving it permanently missing.
+    function onBreakpointResize() {
+      if (!threeJsLoaded && sectionSeen && isDesktopViewport()) {
+        loadThreeJs();
+        observer?.disconnect();
+      }
+    }
+    window.addEventListener("resize", onBreakpointResize);
+
     return () => {
       disposed = true;
       observer?.disconnect();
+      window.removeEventListener("resize", onBreakpointResize);
       cleanupFns.forEach((fn) => fn());
       cleanupFns = [];
     };
@@ -387,7 +410,40 @@ export function InteractiveGlobe({ content }: Props) {
         </p>
       </div>
 
-      <div className="relative mx-auto mt-12 flex h-[420px] w-full max-w-[560px] items-center justify-center sm:h-[520px] md:h-[620px]">
+      {/* Mobile: clean stacked list instead of the interactive WebGL globe --
+          dragging a 3D sphere to find a link doesn't work well on small
+          touch screens. Same 6 destinations, same content paths -- these are
+          individual data-ngf-field annotations only, NOT a second
+          data-ngf-group declaration (the canonical group lives once on the
+          desktop timeline container below; the bridge dedupes/syncs leaf
+          fields across both layouts by path). */}
+      <div className="mx-auto mt-10 grid max-w-md gap-3 px-4 sm:hidden">
+        {cards.map((card, i) => (
+          <Link key={card.href} href={card.href} className="card-soft block text-left no-underline">
+            <h3
+              data-ngf-field={`services.items.${i}.name`}
+              data-ngf-label="Title"
+              data-ngf-type="text"
+              data-ngf-section="Services"
+              className="text-base font-semibold text-white"
+            >
+              {content[`services.items.${i}.name`] || card.title}
+            </h3>
+            <p
+              data-ngf-field={`services.items.${i}.description`}
+              data-ngf-label="Description"
+              data-ngf-type="textarea"
+              data-ngf-section="Services"
+              className="mt-1 text-sm text-white/70"
+            >
+              {content[`services.items.${i}.description`] || card.description}
+            </p>
+          </Link>
+        ))}
+      </div>
+
+      {/* Desktop/tablet: the interactive WebGL globe */}
+      <div className="relative mx-auto mt-12 hidden h-[420px] w-full max-w-[560px] items-center justify-center sm:flex sm:h-[520px] md:h-[620px]">
         <div className="glow-orb left-1/2 top-1/2 h-[26rem] w-[26rem] -translate-x-1/2 -translate-y-1/2 opacity-50" aria-hidden="true" />
         <div className="relative h-full w-full">
           <canvas ref={canvasRef} className="absolute left-1/2 top-1/2 h-full w-full -translate-x-1/2 -translate-y-1/2 cursor-grab" />
