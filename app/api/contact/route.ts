@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { sendContactNotification } from "@/lib/email";
+import { relayLeadToNgf } from "@/lib/ngf-lead";
 
 const contactSchema = z.object({
   name: z.string().min(2).max(200),
@@ -18,6 +19,11 @@ export async function POST(request: Request) {
     if (!parsed.success) {
       return NextResponse.json({ message: "Please complete the required fields." }, { status: 400 });
     }
+
+    // Persist FIRST, to the central NGF lead store, so the enquiry is recorded
+    // even if the notification email fails. It also appears in the client's
+    // portal under Form Submissions. Additive — the email below is unchanged.
+    await relayLeadToNgf("contact", parsed.data);
 
     await sendContactNotification(parsed.data);
 
